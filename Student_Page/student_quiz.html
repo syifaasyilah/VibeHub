@@ -131,28 +131,16 @@
     
     .question {
       padding: 15px;
-      border-left: 4px solid #3498db;
       margin-bottom: 15px;
       background-color: #f8f9fa;
       border-radius: 4px;
+      border: 1px solid #ddd;
     }
     
     .question-header {
       display: flex;
       align-items: center;
       margin-bottom: 10px;
-    }
-    
-    .question-number {
-      width: 30px;
-      height: 30px;
-      background-color: #e1e8f0;
-      color: #64748b;
-      border-radius: 50%;
-      text-align: center;
-      line-height: 30px;
-      font-weight: bold;
-      margin-right: 10px;
     }
     
     .question-text {
@@ -474,31 +462,31 @@
   const quizQuestions = [
     {
       id: 1,
-      text: "HCI stands for Human-Computer Interaction.",
+      text: "1. HCI stands for Human-Computer Interaction.",
       correctAnswer: "true",
       userAnswer: null
     },
     {
       id: 2,
-      text: "Usability testing should only be done at the end of development.",
+      text: "2. Usability testing should only be done at the end of development.",
       correctAnswer: "false",
       userAnswer: null
     },
     {
       id: 3,
-      text: "User personas represent real, specific individuals.",
+      text: "3. User personas represent real, specific individuals.",
       correctAnswer: "false",
       userAnswer: null
     },
     {
       id: 4,
-      text: "Wireframes are low-fidelity representations of a design.",
+      text: "4. Wireframes are low-fidelity representations of a design.",
       correctAnswer: "true",
       userAnswer: null
     },
     {
       id: 5,
-      text: "Accessibility is only important for users with disabilities.",
+      text: "5. Accessibility is only important for users with disabilities.",
       correctAnswer: "false",
       userAnswer: null
     }
@@ -522,7 +510,6 @@
       questionEl.className = 'question';
       questionEl.innerHTML = `
         <div class="question-header">
-          <div class="question-number">${index + 1}</div>
           <div class="question-text">${question.text}</div>
         </div>
         <div class="true-false-options">
@@ -608,6 +595,17 @@
     }
   }
   
+    // Show results function
+  function showResults(score, percentage) {
+      alert(`Quiz Results\n\nScore: ${score}/${quizQuestions.length}\nPercentage: ${percentage}%\n\nYour answers have been submitted.`);
+      
+      // Disable submit button
+      const submitBtn = document.getElementById('submit-btn');
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Submitted';
+      submitBtn.style.backgroundColor = '#bdc3c7';
+  }
+  
   // Submit quiz
   function submitQuiz() {
     clearInterval(timerInterval);
@@ -623,57 +621,7 @@
     const percentage = Math.round((score / quizQuestions.length) * 100);
     
     // Show results
-    const resultsHtml = `
-      <div style="background-color: white; padding: 30px; border-radius: 8px; max-width: 500px; margin: 0 auto;">
-        <h3 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">Quiz Results</h3>
-        <div style="text-align: center; margin-bottom: 25px;">
-          <div style="font-size: 48px; font-weight: bold; color: #27ae60; margin-bottom: 10px;">
-            ${score}/${quizQuestions.length}
-          </div>
-          <div style="color: #7f8c8d; font-size: 18px;">${percentage}% Correct</div>
-        </div>
-        <div style="margin-bottom: 20px;">
-          <h4 style="color: #2c3e50; margin-bottom: 10px;">Question Results:</h4>
-          ${quizQuestions.map((q, i) => `
-            <div style="padding: 10px; margin-bottom: 8px; background-color: ${q.userAnswer === q.correctAnswer ? '#d5f4e6' : '#fadbd8'}; 
-                        color: ${q.userAnswer === q.correctAnswer ? '#27ae60' : '#e74c3c'}; border-radius: 4px;">
-              Q${i+1}: ${q.userAnswer === q.correctAnswer ? '✓ Correct' : '✗ Incorrect'} 
-              (Your answer: ${q.userAnswer || 'Not answered'})
-            </div>
-          `).join('')}
-        </div>
-        <button onclick="document.getElementById('results-modal').remove()" 
-                style="background-color: #3498db; color: white; border: none; padding: 12px 30px; 
-                       border-radius: 4px; cursor: pointer; display: block; margin: 0 auto;">
-          Close Results
-        </button>
-      </div>
-    `;
-    
-    const resultsModal = document.createElement('div');
-    resultsModal.id = 'results-modal';
-    resultsModal.style.cssText = `
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background-color: rgba(0,0,0,0.7);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      padding: 20px;
-    `;
-    resultsModal.innerHTML = resultsHtml;
-    
-    document.body.appendChild(resultsModal);
-    
-    // Disable submit button
-    const submitBtn = document.getElementById('submit-btn');
-    submitBtn.disabled = true;
-    submitBtn.textContent = 'Submitted';
-    submitBtn.style.backgroundColor = '#bdc3c7';
+    showResults(score, percentage);
     
     console.log(`Prototype: Quiz submitted. Score: ${score}/${quizQuestions.length}`);
   }
@@ -760,6 +708,4 @@
 </script>
 
 </body>
-
 </html>
-
