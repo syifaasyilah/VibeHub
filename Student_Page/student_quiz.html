@@ -1,0 +1,765 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - GMCI Session 3</title>
+  <style>
+    /* Simple base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+    }
+    
+    /* Topbar */
+    .topbar {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .quiz-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .back-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    /* Main layout */
+    .main-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      gap: 20px;
+    }
+    
+    /* Left column - Quiz */
+    .quiz-column {
+      flex: 2;
+    }
+    
+    /* Right column - Controls */
+    .controls-column {
+      flex: 1;
+    }
+    
+    /* Box styles */
+    .box {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+    
+    .box-title {
+      color: #2c3e50;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 8px;
+    }
+    
+    /* Quiz header */
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .quiz-timer {
+      background-color: #f8f9fa;
+      padding: 8px 15px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      font-family: monospace;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    /* Quiz status */
+    .quiz-status {
+      display: flex;
+      justify-content: space-around;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+    
+    .status-item {
+      text-align: center;
+    }
+    
+    .status-count {
+      font-size: 24px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .status-label {
+      font-size: 14px;
+      color: #7f8c8d;
+    }
+    
+    /* Questions list */
+    .questions-list {
+      max-height: 500px;
+      overflow-y: auto;
+      margin-bottom: 20px;
+    }
+    
+    .question {
+      padding: 15px;
+      border-left: 4px solid #3498db;
+      margin-bottom: 15px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+    }
+    
+    .question-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    
+    .question-number {
+      width: 30px;
+      height: 30px;
+      background-color: #e1e8f0;
+      color: #64748b;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 30px;
+      font-weight: bold;
+      margin-right: 10px;
+    }
+    
+    .question-text {
+      flex: 1;
+      font-size: 16px;
+      line-height: 1.5;
+    }
+    
+    /* True/False options */
+    .true-false-options {
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      margin-top: 10px;
+    }
+    
+    .true-false-btn {
+      padding: 10px 20px;
+      border: 2px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      min-width: 80px;
+    }
+    
+    .true-btn {
+      color: #27ae60;
+    }
+    
+    .false-btn {
+      color: #e74c3c;
+    }
+    
+    .true-false-btn.selected {
+      color: white;
+    }
+    
+    .true-btn.selected {
+      background-color: #27ae60;
+      border-color: #27ae60;
+    }
+    
+    .false-btn.selected {
+      background-color: #e74c3c;
+      border-color: #e74c3c;
+    }
+    
+    /* Submit button */
+    .submit-container {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+    
+    .submit-btn {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 15px 40px;
+      border-radius: 6px;
+      font-size: 18px;
+      cursor: pointer;
+    }
+    
+    .submit-btn:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+    
+    /* Understanding box */
+    .understanding-slider {
+      width: 100%;
+      margin: 15px 0;
+    }
+    
+    .understanding-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .current-level {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    /* Speech rate box */
+    .rate-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .rate-btn {
+      padding: 10px;
+      border: 2px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+    }
+    
+    .rate-btn.active {
+      background-color: #27ae60;
+      color: white;
+      border-color: #27ae60;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      text-align: center;
+    }
+    
+    .emoji-btn {
+      background-color: #9b59b6;
+    }
+    
+    .confusion-btn {
+      background-color: #e67e22;
+    }
+    
+    /* Emoji box */
+    .emoji-box {
+      display: none;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      margin-top: 15px;
+      border: 1px solid #ddd;
+    }
+    
+    .emoji-box.show {
+      display: block;
+    }
+    
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .emoji {
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      font-size: 20px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      
+      .quiz-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .true-false-options {
+        justify-content: flex-start;
+      }
+      
+      .quiz-status {
+        flex-direction: column;
+        gap: 15px;
+      }
+    }
+    
+    /* Prototype note */
+    .prototype-note {
+      text-align: center;
+      margin-top: 30px;
+      padding: 15px;
+      color: #7f8c8d;
+      font-size: 14px;
+      border-top: 1px solid #ecf0f1;
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="quiz-title">True/False Quiz - GMCI Session 3</div>
+  <button class="back-btn" id="back-btn">← Back to Session</button>
+</div>
+
+<div class="main-container">
+  <!-- Left column: Quiz -->
+  <div class="quiz-column">
+    <div class="box">
+      <div class="quiz-header">
+        <div>
+          <div class="box-title">True/False Quiz</div>
+          <div style="color: #7f8c8d; font-size: 14px;">
+            Answer all questions below
+          </div>
+        </div>
+        <div class="quiz-timer" id="timer">15:00</div>
+      </div>
+      
+      <div class="quiz-status">
+        <div class="status-item">
+          <div class="status-count" id="answered-count">0</div>
+          <div class="status-label">Answered</div>
+        </div>
+        <div class="status-item">
+          <div class="status-count" id="total-count">5</div>
+          <div class="status-label">Total Questions</div>
+        </div>
+        <div class="status-item">
+          <div class="status-count" id="time-left">15:00</div>
+          <div class="status-label">Time Left</div>
+        </div>
+      </div>
+      
+      <div class="questions-list" id="questions-list">
+        <!-- Questions loaded here -->
+      </div>
+      
+      <div class="submit-container">
+        <button class="submit-btn" id="submit-btn" disabled>Submit Quiz</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Right column: Controls -->
+  <div class="controls-column">
+    <!-- Understanding level -->
+    <div class="box">
+      <div class="box-title">Understanding Level</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How well do you understand the current topic?
+      </p>
+      
+      <input type="range" min="1" max="5" value="3" class="understanding-slider" id="understanding-slider">
+      
+      <div class="understanding-labels">
+        <span>Confused</span>
+        <span>Basic</span>
+        <span>Good</span>
+        <span>Very Good</span>
+        <span>Excellent</span>
+      </div>
+      
+      <div class="current-level" id="current-level">Current: Good (3/5)</div>
+    </div>
+    
+    <!-- Speech rate -->
+    <div class="box">
+      <div class="box-title">Speech Rate</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How is the instructor's speaking pace?
+      </p>
+      
+      <div class="rate-buttons">
+        <button class="rate-btn" data-rate="slow">Too Slow</button>
+        <button class="rate-btn active" data-rate="ok">Just Right</button>
+        <button class="rate-btn" data-rate="fast">Too Fast</button>
+      </div>
+    </div>
+    
+    <!-- Action buttons -->
+    <div class="box">
+      <div class="box-title">Quick Actions</div>
+      <div class="action-buttons">
+        <button class="action-btn emoji-btn" id="emoji-toggle-btn">Show Emojis</button>
+        <button class="action-btn confusion-btn" id="confusion-btn">😕 I'm Confused</button>
+      </div>
+      
+      <div class="emoji-box" id="emoji-box">
+        <div style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+          Click to send feedback:
+        </div>
+        <div class="emoji-grid">
+          <div class="emoji">😀</div>
+          <div class="emoji">😐</div>
+          <div class="emoji">😕</div>
+          <div class="emoji">😍</div>
+          <div class="emoji">👍</div>
+          <div class="emoji">👎</div>
+          <div class="emoji">🤔</div>
+          <div class="emoji">😴</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="prototype-note">
+  Interactive Prototype - Quiz with timer and all questions visible
+</div>
+
+<script>
+  // Quiz questions data
+  const quizQuestions = [
+    {
+      id: 1,
+      text: "HCI stands for Human-Computer Interaction.",
+      correctAnswer: "true",
+      userAnswer: null
+    },
+    {
+      id: 2,
+      text: "Usability testing should only be done at the end of development.",
+      correctAnswer: "false",
+      userAnswer: null
+    },
+    {
+      id: 3,
+      text: "User personas represent real, specific individuals.",
+      correctAnswer: "false",
+      userAnswer: null
+    },
+    {
+      id: 4,
+      text: "Wireframes are low-fidelity representations of a design.",
+      correctAnswer: "true",
+      userAnswer: null
+    },
+    {
+      id: 5,
+      text: "Accessibility is only important for users with disabilities.",
+      correctAnswer: "false",
+      userAnswer: null
+    }
+  ];
+  
+  let timeLeft = 15 * 60; // 15 minutes in seconds
+  let timerInterval;
+  let answeredCount = 0;
+  
+  // Load quiz questions
+  function loadQuizQuestions() {
+    const questionsList = document.getElementById('questions-list');
+    questionsList.innerHTML = '';
+    
+    answeredCount = 0;
+    
+    quizQuestions.forEach((question, index) => {
+      if (question.userAnswer !== null) answeredCount++;
+      
+      const questionEl = document.createElement('div');
+      questionEl.className = 'question';
+      questionEl.innerHTML = `
+        <div class="question-header">
+          <div class="question-number">${index + 1}</div>
+          <div class="question-text">${question.text}</div>
+        </div>
+        <div class="true-false-options">
+          <button class="true-false-btn true-btn ${question.userAnswer === 'true' ? 'selected' : ''}" 
+                  data-id="${question.id}" data-answer="true">
+            True
+          </button>
+          <button class="true-false-btn false-btn ${question.userAnswer === 'false' ? 'selected' : ''}" 
+                  data-id="${question.id}" data-answer="false">
+            False
+          </button>
+        </div>
+      `;
+      questionsList.appendChild(questionEl);
+    });
+    
+    // Update answered count display
+    document.getElementById('answered-count').textContent = answeredCount;
+    document.getElementById('total-count').textContent = quizQuestions.length;
+    
+    // Update submit button state
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = answeredCount !== quizQuestions.length;
+    
+    // Add event listeners to answer buttons
+    document.querySelectorAll('.true-false-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const questionId = parseInt(this.getAttribute('data-id'));
+        const answer = this.getAttribute('data-answer');
+        selectAnswer(questionId, answer);
+      });
+    });
+  }
+  
+  // Select answer for a question
+  function selectAnswer(questionId, answer) {
+    const question = quizQuestions.find(q => q.id === questionId);
+    
+    if (!question) return;
+    
+    // Update question data
+    question.userAnswer = answer;
+    
+    console.log(`Prototype: Selected ${answer} for question ${questionId}`);
+    
+    // Reload questions to update UI
+    loadQuizQuestions();
+  }
+  
+  // Timer functions
+  function startTimer() {
+    clearInterval(timerInterval);
+    
+    timerInterval = setInterval(() => {
+      timeLeft--;
+      updateTimerDisplay();
+      
+      if (timeLeft <= 0) {
+        clearInterval(timerInterval);
+        alert('Prototype: Time is up! Submitting quiz automatically...');
+        submitQuiz();
+      }
+    }, 1000);
+  }
+  
+  function updateTimerDisplay() {
+    const minutes = Math.floor(timeLeft / 60);
+    const seconds = timeLeft % 60;
+    
+    const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+    
+    document.getElementById('timer').textContent = timeString;
+    document.getElementById('time-left').textContent = timeString;
+    
+    // Update color for low time
+    const timerElement = document.getElementById('timer');
+    timerElement.style.color = '#2c3e50';
+    
+    if (timeLeft <= 60) {
+      timerElement.style.color = '#e74c3c';
+    } else if (timeLeft <= 300) {
+      timerElement.style.color = '#f39c12';
+    }
+  }
+  
+  // Submit quiz
+  function submitQuiz() {
+    clearInterval(timerInterval);
+    
+    // Calculate score
+    let score = 0;
+    quizQuestions.forEach(question => {
+      if (question.userAnswer === question.correctAnswer) {
+        score++;
+      }
+    });
+    
+    const percentage = Math.round((score / quizQuestions.length) * 100);
+    
+    // Show results
+    const resultsHtml = `
+      <div style="background-color: white; padding: 30px; border-radius: 8px; max-width: 500px; margin: 0 auto;">
+        <h3 style="color: #2c3e50; margin-bottom: 20px; text-align: center;">Quiz Results</h3>
+        <div style="text-align: center; margin-bottom: 25px;">
+          <div style="font-size: 48px; font-weight: bold; color: #27ae60; margin-bottom: 10px;">
+            ${score}/${quizQuestions.length}
+          </div>
+          <div style="color: #7f8c8d; font-size: 18px;">${percentage}% Correct</div>
+        </div>
+        <div style="margin-bottom: 20px;">
+          <h4 style="color: #2c3e50; margin-bottom: 10px;">Question Results:</h4>
+          ${quizQuestions.map((q, i) => `
+            <div style="padding: 10px; margin-bottom: 8px; background-color: ${q.userAnswer === q.correctAnswer ? '#d5f4e6' : '#fadbd8'}; 
+                        color: ${q.userAnswer === q.correctAnswer ? '#27ae60' : '#e74c3c'}; border-radius: 4px;">
+              Q${i+1}: ${q.userAnswer === q.correctAnswer ? '✓ Correct' : '✗ Incorrect'} 
+              (Your answer: ${q.userAnswer || 'Not answered'})
+            </div>
+          `).join('')}
+        </div>
+        <button onclick="document.getElementById('results-modal').remove()" 
+                style="background-color: #3498db; color: white; border: none; padding: 12px 30px; 
+                       border-radius: 4px; cursor: pointer; display: block; margin: 0 auto;">
+          Close Results
+        </button>
+      </div>
+    `;
+    
+    const resultsModal = document.createElement('div');
+    resultsModal.id = 'results-modal';
+    resultsModal.style.cssText = `
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-color: rgba(0,0,0,0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 20px;
+    `;
+    resultsModal.innerHTML = resultsHtml;
+    
+    document.body.appendChild(resultsModal);
+    
+    // Disable submit button
+    const submitBtn = document.getElementById('submit-btn');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Submitted';
+    submitBtn.style.backgroundColor = '#bdc3c7';
+    
+    console.log(`Prototype: Quiz submitted. Score: ${score}/${quizQuestions.length}`);
+  }
+  
+  // Understanding slider
+  const understandingSlider = document.getElementById('understanding-slider');
+  const currentLevel = document.getElementById('current-level');
+  
+  understandingSlider.addEventListener('input', function() {
+    const value = parseInt(this.value);
+    const levels = ['Confused', 'Basic', 'Good', 'Very Good', 'Excellent'];
+    currentLevel.textContent = `Current: ${levels[value-1]} (${value}/5)`;
+    console.log(`Prototype: Understanding level set to ${value}`);
+  });
+  
+  // Speech rate buttons
+  const rateButtons = document.querySelectorAll('.rate-btn');
+  
+  rateButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      rateButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      const rate = this.getAttribute('data-rate');
+      console.log(`Prototype: Speech rate set to "${rate}"`);
+    });
+  });
+  
+  // Emoji toggle
+  const emojiToggleBtn = document.getElementById('emoji-toggle-btn');
+  const emojiBox = document.getElementById('emoji-box');
+  
+  emojiToggleBtn.addEventListener('click', function() {
+    const isVisible = emojiBox.classList.contains('show');
+    
+    if (isVisible) {
+      emojiBox.classList.remove('show');
+      this.textContent = 'Show Emojis';
+    } else {
+      emojiBox.classList.add('show');
+      this.textContent = 'Hide Emojis';
+    }
+  });
+  
+  // Emoji buttons
+  document.querySelectorAll('.emoji').forEach(emoji => {
+    emoji.addEventListener('click', function() {
+      const emojiText = this.textContent;
+      
+      // Visual feedback
+      const originalText = this.textContent;
+      this.textContent = '✓';
+      this.style.backgroundColor = '#d5f4e6';
+      
+      setTimeout(() => {
+        this.textContent = originalText;
+        this.style.backgroundColor = '';
+      }, 500);
+      
+      console.log(`Prototype: Sent ${emojiText} feedback`);
+      alert(`Prototype: Sent ${emojiText} to instructor during quiz`);
+    });
+  });
+  
+  // Confusion button
+  document.getElementById('confusion-btn').addEventListener('click', function() {
+    alert('Prototype: Instructor notified that you are confused during quiz\n\nIn real implementation:\n- Instructor gets notification\n- May provide clarification');
+  });
+  
+  // Submit button
+  document.getElementById('submit-btn').addEventListener('click', submitQuiz);
+  
+  // Back button
+  document.getElementById('back-btn').addEventListener('click', function() {
+    alert('Prototype: Would return to session page\n\nIn real implementation:\n- Returns to live session\n- Quiz progress may be saved');
+    window.location.href = 'student_session.html';
+  });
+  
+  // Initialize
+  loadQuizQuestions();
+  startTimer();
+</script>
+
+</body>
+</html>
