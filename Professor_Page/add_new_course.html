@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Creating a new Course</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    main{
+      display: flex;
+      align: center;
+    }
+
+    .header {
+      background-color: #2c3e50;
+      height: 70px;
+      color: white;
+      fontsize: 20px;
+      
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a{
+      margin-left: 30px;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    nav a:hover{
+      color: #D3D3D3;
+    }
+
+    nav a.aktuell{
+      text-decoration: underline;
+      color: #708090 ;
+    }
+
+    .hamburger {
+      font-size: 40px;
+      cursor: pointer;
+      margin-right: 30px;
+      text-align: center;
+    }
+
+    .hamburger:hover {
+      color: #D3D3D3;
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 10px;
+      background-color: #708090;
+      align: center;
+      /*display: inline-block;*/
+      border-radius: 7px;
+
+    }
+
+    table th {
+      color: #2c3e50;
+    }
+
+    table td {
+      color: #D3D3D3;
+    }
+
+    table th:hover{
+      color: #D3D3D3;
+      cursor: pointer;
+    }
+
+    table th:active{
+      color: white;
+    }
+
+    .semester:hover{
+      color:white;
+      cursor: pointer;
+    }
+
+    .semster:active {
+      color: white;
+    }
+
+    table input {
+      width: 40px;
+      height: 30px;
+      background-color: #D3D3D3;
+    }
+
+
+    .zeit_angabe{
+      align:center;
+      display: inline-block;
+      background-color: #D3D3D3;
+      border-radius: 7px;
+    }
+
+    #clickable_d.aktiv{
+      color: white;
+    }
+
+    #clickable_s.aktiv{
+      color: white;
+    }
+
+    .new_session{
+      display: inline-block;
+      background-color: #D3D3D3;
+      color: #2c3e50;
+      border-radius:7px;
+      cursor: pointer;
+      align: center;
+      border: none;
+      font-size: 15px;
+      font-weight: bold;
+      padding-left: 25px;
+      padding-right: 25px;
+      margin-left: 130px;
+      margin-top: 40px;
+      margin-bottom: 30px;
+    }
+
+    .zurück{
+      display: inline-block;
+      background-color: #D3D3D3;
+      color:#2c3e50;
+      border-radius: 7px;
+      cursor: pointer;
+      align: center;
+      border: none;
+      font-size: 15px;
+      font-weight: bold;
+      margin-left: 50px;
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .new_session:hover{
+      transform: scale(1.03);
+    }
+
+    .zurück:hover{
+      transform: scale(1.03);
+    }
+
+    .container{
+      display: inline-block;
+      background-color: #f0f8ff;
+      border-radius: 7px;
+      margin-left: 250px;
+      margin-top: 85px;
+    }
+
+    .input_name{
+      display: inline-block;
+      background-color: #D3D3D3;
+      border-radius: 7px;
+      color: #2c3e50;
+      
+     
+    }
+
+    .first_date{
+      display: inline-block;
+      background-color: #D3D3D3;
+      border-radius: 7px;
+      color: #2c3e50;
+    
+    }
+
+    .input {
+      display: inline-block;
+      
+      margin-left: 50px;
+    }
+
+    .zeit_angabe{
+      margin-left: 50px;
+      margin-right: 50px;
+    }
+
+    .angaben{
+      display: flex;
+      align-items: center;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <nav>
+      <a href="Startseite_Prof.html">Start</a>
+      <a href="add_new_course.html" class="aktuell">Courses</a>
+    </nav>
+    <div class="hamburger">☰</div>
+  </div>
+
+<main>
+  <div class="container">
+    <h2 align="center" style= "color:#2c3e50;">Create a new Course</h2>
+
+    <div class="angaben">
+    <div class="input">
+    <form class="input_name">
+      <label for="input_name">Name of the Course:</label>
+      <input type="text" style="width: 250px; height: 50px;" required/> <br>
+    
+    
+      <label for="first_date">First Date:</label>
+      <input type="date" style="width: 325px; height: 50px;"required/> 
+    </form>
+    </div>
+
+    <div class="zeit_angabe">
+      <h2 align="center" style=" color:#2c3e50;">Time</h2>
+      <table>
+        <thead>
+          <tr>
+            <th id="clickable_d">MO</th>
+            <th >TU</th>
+            <th >WE</th>
+            <th >TH</th>
+            <th >FR</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr></tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>
+              <form class="uhrzeit">
+                <label for="uhrzeit"></label>
+                <input type="time" required/>
+              </form>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td></td>
+            <td id ="clickable_s" class="semester">Wi.S</td>
+            <td></td>
+            <td class="semester">Su.S</td>
+            <td></td>
+          </tr>
+          <tr></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <div>
+      <button class="zurück" onclick="window.location.href='Startseite_Prof.html'"><h2>←</h2></button>
+
+      <button class="new_session" onclick="window.location.href ='add_new_session.html'"><h2>Save and add a new Session</h2></button>
+
+    </div>
+  </div>
+    
+  </main>
+
+  <script>
+    document.getElementById('clickable_d').addEventListener('click', function() {
+    this.classList.add('aktiv');
+    }); 
+
+    document.getElementById('clickable_s').addEventListener('click', function() {
+    this.classList.add('aktiv'); 
+  });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Startseite_Professor</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    main {
+      display: flex;
+      align-content: center;
+
+    }
+
+    .header {
+      background-color: #2c3e50;
+      height: 70px;
+      color: white;
+      fontsize: 20px;
+      
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    nav a{
+      margin-left: 30px;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    nav a:hover{
+      color: #D3D3D3;
+    }
+
+    nav a.aktuell{
+      text-decoration: underline;
+      color: #708090 ;
+    }
+
+    .hamburger {
+      font-size: 40px;
+      cursor: pointer;
+      margin-right: 30px;
+      text-align: center;
+    }
+
+    .hamburger:hover {
+      color: #D3D3D3;
+    }
+
+    .new_course {
+      display: inline-block;
+      background-color: #D3D3D3;
+      color: #2c3e50;
+      border-radius: 7px;
+      cursor: pointer;
+      align: center;
+      border: none;
+      font-size: 15px;
+      margin-left: 30px; 
+      margin-top: 50px;
+      margin-right: 30px;
+      margin-bottom: 30px;
+      padding-left: 50px; 
+      padding-right: 50px;
+      font-weight: bold;
+      
+    }
+
+    .new_course:hover {
+      transform: scale(1.05);
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 10px;
+      background-color: #708090;
+      align: center;
+      /*display: inline-block;*/
+      border-radius: 7px;
+
+    }
+
+    table th {
+      color: #2c3e50;
+    }
+
+    table td {
+      color: #D3D3D3;
+    }
+    table td.today {
+      color: white;
+      font-weight: bold;
+    }
+
+    .kalender{
+      align: center;
+      display: inline-block;
+      background-color: #D3D3D3;
+      border-radius: 7px;
+    }
+
+    .courses {
+      display: inline-block;
+      background-color: #D3D3D3;
+      border-radius: 7px;
+      margin-right: 90px;
+      margin-left: 50px;
+      
+    }
+
+    .courses h2 {
+      padding-left: 25px;
+      padding-right: 25px;
+    }
+
+    .courses th {
+      text-align: left;
+      color: white;
+      font-size: 20px;
+    }
+
+    .courses table{
+      width: 100%;
+    }
+
+    .courses table th:hover{
+      color: #D3D3D3;
+      cursor: pointer;
+    }
+
+
+    .session_anzeige{
+      display: inline-block;
+      background-color: #D3D3D3;
+      border-radius: 7px;
+      align: center;
+      margin-left: 30px;
+      margin-right: 30px;
+      margin-bottom: 30px;
+      margin-top: 20px;
+    }
+
+    .session_anzeige th{
+      color: white;
+      font-size: 25px;
+    }
+
+    .session_anzeige table th button{
+      /*display: inline-block;*/
+      background-color: #D3D3D3;
+      color: #2c3e50;
+      cursor: pointer;
+      border-radius: 7px;
+      border: none;
+      font-size: 25px;
+
+    }
+
+    .session_anzeige table th button:hover {
+      transform: scale(1.03);
+    }
+    
+    .links{
+      display: inline-block;
+      margin: 30px;
+      margin-top: 85px;
+      margin-left: 150px;
+    }
+
+    .rechts {
+      display: flex;
+      margin-left: 70px;
+      align-content: center;
+      align-items: center;
+      
+    }
+
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <nav>
+      <a href="Startseite_Prof.html" class="aktuell">Start</a>
+      <a href="add_new_course.html">Courses</a>
+    </nav>
+    <div class="hamburger">☰</div>
+  </div>
+
+
+<main>
+  <div class="links">
+  <div class="session_anzeige">
+    <h2 align="center" style= "color: #2c3e50;">Todays Session</h2>
+    <table>
+      <thead>
+        <tr></tr>
+        <tr>
+          <th>• GMCI</th>
+          <th>8:00</th>
+        </tr>
+        <tr></tr>
+        <tr>
+          <th><button class="QR_code_generator">Generate QR-Code</button></th>
+          <th><button class="session_start" onclick="window.location.href='start_session.html'">Start</button></th>
+        </tr>
+        <tr></tr>
+      </thead>
+      <tbody>
+      </tbody>
+    </table>
+  </div>
+
+  <div>
+  <button class="new_course" onclick="window.location.href ='add_new_course.html'"><h2>Create a new Course</h2></button>
+</div>
+</div>
+
+<div class="rechts">
+
+    <div class="courses">
+    <h2 style= "color:#2c3e50;">Courses</h2>
+    <table>
+      <thead>
+        <tr></tr>
+        <tr>
+          <th>• GMCI</th>
+        </tr>
+        <tr></tr>
+        <tr>
+          <th>• PROG 1</th>
+        </tr>
+        <tr></tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+
+  <div class="kalender">
+    <h2 align="center" style= "color: #2c3e50;">January 2026</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>MO</th>
+          <th>TU</th>
+          <th>WE</th>
+          <th>TH</th>
+          <th>FR</th>
+       </tr>
+      </thead>
+
+      <tbody>
+        <tr></tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td>1</td>
+          <td>2</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td class="today">5</td>
+          <td>6</td>
+          <td>7</td>
+          <td>8</td>
+          <td>9</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td>12</td>
+          <td>13</td>
+          <td>14</td>
+          <td>15</td>
+          <td>16</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td>19</td>
+          <td>20</td>
+          <td>21</td>
+          <td>22</td>
+          <td>23</td>
+        </tr>
+        <tr></tr>
+        <tr>
+          <td>26</td>
+          <td>27</td>
+          <td>28</td>
+          <td>29</td>
+          <td>30</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+</main>
+</html>
