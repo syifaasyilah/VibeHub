@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMCI – Session 3</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f9fc;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar Styles */
+    .topbar {
+      background: linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+    }
+
+    .session-info {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .session-info h3 {
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    .topbar-controls {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .topbar select {
+      background-color: #2d4a7c;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      min-width: 100px;
+    }
+
+    .topbar button {
+      background-color: #2d4a7c;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .topbar button:hover {
+      background-color: #3a5999;
+    }
+
+    .fullscreen-btn {
+      background-color: #2d4a7c;
+      color: white;
+      border: none;
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .fullscreen-btn:hover {
+      background-color: #3a5999;
+    }
+
+    /* Main Layout */
+    .session-layout {
+      display: flex;
+      padding: 30px;
+      gap: 30px;
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Understanding & Speech Rate */
+    .left-column {
+      flex: 1.2;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Emoji Box & Additional Controls */
+    .right-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Box Styles */
+    .box {
+      background-color: white;
+      border-radius: 16px;
+      padding: 25px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .box h4 {
+      color: #1a365d;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f7ff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Understanding Box */
+    .understanding-box {
+      flex: 1;
+    }
+
+    .understanding-levels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .slider-container {
+      position: relative;
+      margin: 20px 0 30px;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      width: 100%;
+      top: -25px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .slider {
+      width: 100%;
+      height: 24px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #1a365d;
+      border-radius: 12px;
+      outline: none;
+      padding: 0 5px;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      border: 3px solid #1a365d;
+    }
+
+    .slider-value {
+      text-align: center;
+      font-size: 1.1rem;
+      color: #1a365d;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* Speech Rate Box */
+    .speech-box {
+      flex: 1;
+    }
+
+    .rate-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .rate-btn {
+      padding: 16px;
+      border: 2px solid #e1e8f0;
+      background-color: white;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .rate-btn:hover {
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .rate-btn.active {
+      background-color: #10b981;
+      color: white;
+      border-color: #10b981;
+    }
+
+    .rate-btn.slow {
+      color: #ef4444;
+    }
+
+    .rate-btn.ok {
+      color: #eab308;
+    }
+
+    .rate-btn.fast {
+      color: #22c55e;
+    }
+
+    .rate-btn.active.slow {
+      background-color: #ef4444;
+    }
+
+    .rate-btn.active.ok {
+      background-color: #eab308;
+    }
+
+    .rate-btn.active.fast {
+      background-color: #22c55e;
+    }
+
+    /* Emoji Box */
+    .emoji-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .emoji-display {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+      flex: 1;
+    }
+
+    .emoji-btn {
+      background-color: #f8fafc;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 2.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 15px;
+      aspect-ratio: 1;
+    }
+
+    .emoji-btn:hover {
+      background-color: #f0f7ff;
+      transform: scale(1.05);
+      border-color: #cbd5e1;
+    }
+
+    .emoji-btn.active {
+      background-color: #dbeafe;
+      border-color: #3b82f6;
+      transform: scale(1.05);
+    }
+
+    .emoji-label {
+      font-size: 0.9rem;
+      text-align: center;
+      margin-top: 5px;
+      color: #64748b;
+    }
+
+    /* Additional Controls Box */
+    .controls-box {
+      min-height: 120px;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .action-btn {
+      padding: 16px;
+      background-color: #2d4a7c;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .action-btn:hover {
+      background-color: #3a5999;
+      transform: translateY(-2px);
+    }
+
+    .action-btn.comments {
+      background-color: #10b981;
+    }
+
+    .action-btn.comments:hover {
+      background-color: #0da271;
+    }
+
+    .action-btn.quiz {
+      background-color: #8b5cf6;
+    }
+
+    .action-btn.quiz:hover {
+      background-color: #7c3aed;
+    }
+
+    /* Question Bar (Bottom) */
+    .question-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      padding: 20px 30px;
+      display: flex;
+      gap: 15px;
+      align-items: center;
+    }
+
+    .question-input {
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .question-input:focus {
+      border-color: #3b82f6;
+    }
+
+    .send-btn {
+      padding: 16px 30px;
+      background-color: #10b981;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .send-btn:hover {
+      background-color: #0da271;
+    }
+
+    .confusion-btn {
+      padding: 16px 25px;
+      background-color: #f97316;
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .confusion-btn:hover {
+      background-color: #ea580c;
+      transform: translateY(-2px);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .session-layout {
+        flex-direction: column;
+        padding: 20px;
+      }
+      
+      .left-column, .right-column {
+        width: 100%;
+      }
+      
+      .emoji-display {
+        grid-template-columns: repeat(8, 1fr);
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        padding: 12px 20px;
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+      
+      .session-info h3 {
+        font-size: 1.1rem;
+      }
+      
+      .topbar-controls {
+        width: 100%;
+        justify-content: space-between;
+      }
+      
+      .emoji-display {
+        grid-template-columns: repeat(4, 1fr);
+      }
+      
+      .question-bar {
+        padding: 15px 20px;
+        flex-wrap: wrap;
+      }
+      
+      .question-input {
+        width: 100%;
+      }
+      
+      .send-btn, .confusion-btn {
+        flex: 1;
+        min-width: 120px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .box {
+        padding: 20px;
+      }
+      
+      .emoji-display {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .rate-buttons {
+        gap: 10px;
+      }
+      
+      .rate-btn {
+        padding: 14px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="session-info">
+    <h3>GMCI Session: 3</h3>
+  </div>
+  
+  <div class="topbar-controls">
+    <select>
+      <option>EN</option>
+      <option>DE</option>
+    </select>
+    
+    <button class="fullscreen-btn" id="fullscreen-btn" title="Toggle Fullscreen">
+      <i class="fas fa-expand"></i>
+    </button>
+    
+    <button id="menu-btn">
+      <i class="fas fa-bars"></i> Menu
+    </button>
+  </div>
+</header>
+
+<main class="session-layout">
+  <!-- Left Column -->
+  <div class="left-column">
+    <!-- Understanding Level Box -->
+    <div class="box understanding-box">
+      <h4>Understanding Level</h4>
+      <div class="understanding-levels">
+        <span>Confused</span>
+        <span>Basic</span>
+        <span>Good</span>
+        <span>Very Good</span>
+        <span>Excellent</span>
+      </div>
+      
+      <div class="slider-container">
+        <div class="slider-labels">
+          <span>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>5</span>
+        </div>
+        <input type="range" min="1" max="5" value="3" class="slider" id="understanding-slider">
+      </div>
+      
+      <div class="slider-value">
+        Current Level: <span id="slider-value">3 - Good</span>
+      </div>
+      
+      <p style="color: #64748b; font-size: 0.9rem; margin-top: 15px; text-align: center;">
+        Slide the bar to indicate your current understanding level
+      </p>
+    </div>
+    
+    <!-- Speech Rate Box -->
+    <div class="box speech-box">
+      <h4>Speech Rate</h4>
+      <p style="color: #64748b; margin-bottom: 15px;">
+        How is the instructor's speaking pace?
+      </p>
+      
+      <div class="rate-buttons">
+        <button class="rate-btn slow" data-rate="slow">
+          <span>Slow</span>
+        </button>
+        <button class="rate-btn ok active" data-rate="ok">
+          <span>Just Right</span>
+        </button>
+        <button class="rate-btn fast" data-rate="fast">
+          <span>Fast</span>
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Right Column -->
+  <div class="right-column">
+    <!-- Emoji Box -->
+    <div class="box emoji-box">
+      <h4>Quick Feedback Emojis</h4>
+      <p style="color: #64748b; margin-bottom: 10px;">
+        Click an emoji to send quick feedback to the instructor
+      </p>
+      
+      <div class="emoji-display">
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="😀" title="Happy">
+            😀
+          </button>
+          <div class="emoji-label">Happy</div>
+        </div>
+        
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="😐" title="Neutral">
+            😐
+          </button>
+          <div class="emoji-label">Neutral</div>
+        </div>
+        
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="😕" title="Confused">
+            😕
+          </button>
+          <div class="emoji-label">Confused</div>
+        </div>
+        
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="😍" title="Excited">
+            😍
+          </button>
+          <div class="emoji-label">Excited</div>
+        </div>
+        
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="👍" title="Thumbs Up">
+            👍
+          </button>
+          <div class="emoji-label">Good</div>
+        </div>
+        
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="👎" title="Thumbs Down">
+            👎
+          </button>
+          <div class="emoji-label">Bad</div>
+        </div>
+        
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="🤔" title="Thinking">
+            🤔
+          </button>
+          <div class="emoji-label">Thinking</div>
+        </div>
+        
+        <div class="emoji-item">
+          <button class="emoji-btn" data-emoji="😴" title="Bored">
+            😴
+          </button>
+          <div class="emoji-label">Bored</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Additional Controls Box -->
+    <div class="box controls-box">
+      <h4>Additional Controls</h4>
+      <div class="action-buttons">
+        <button class="action-btn comments" onclick="location.href='student_comments.html'">
+          View Comments
+        </button>
+        <button class="action-btn quiz" onclick="location.href='student_quiz.html'">
+          Open Quiz
+        </button>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- Question Bar (Bottom) -->
+<footer class="question-bar">
+  <input type="text" class="question-input" placeholder="Type a comment or question…" id="question-input">
+  <button class="send-btn" id="send-btn">
+    Send
+  </button>
+  <button class="confusion-btn" id="confusion-btn">
+    😕 I'm Confused
+  </button>
+</footer>
+
+<script>
+ 
+</script>
+
+</body>
+</html>

@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz - GMCI Session 3</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Base styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    body {
+      background-color: #f5f9fc;
+      color: #333;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Topbar Styles */
+    .topbar {
+      background: linear-gradient(135deg, #1a365d 0%, #2d4a7c 100%);
+      color: white;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+    }
+
+    .quiz-info {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .quiz-info h3 {
+      font-weight: 600;
+      font-size: 1.3rem;
+    }
+
+    .back-btn {
+      background-color: #2d4a7c;
+      color: white;
+      border: none;
+      padding: 8px 18px;
+      border-radius: 8px;
+      font-weight: 500;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s;
+    }
+
+    .back-btn:hover {
+      background-color: #3a5999;
+    }
+
+    /* Main Layout */
+    .quiz-layout {
+      display: flex;
+      padding: 30px;
+      gap: 30px;
+      flex: 1;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Quiz Questions */
+    .quiz-column {
+      flex: 1.5;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Controls */
+    .controls-column {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
+    }
+
+    /* Box Styles */
+    .box {
+      background-color: white;
+      border-radius: 16px;
+      padding: 25px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .box h4 {
+      color: #1a365d;
+      font-size: 1.3rem;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #f0f7ff;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* Quiz Box */
+    .quiz-box {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .quiz-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+
+    .quiz-title h4 {
+      color: #1a365d;
+      font-size: 1.4rem;
+      margin-bottom: 5px;
+      border: none;
+      padding: 0;
+    }
+
+    .quiz-meta {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    .timer-container {
+      background-color: #f8fafc;
+      padding: 10px 20px;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .timer {
+      font-size: 1.2rem;
+      font-weight: 700;
+      font-family: 'Courier New', monospace;
+      color: #1a365d;
+    }
+
+    /* Questions List */
+    .questions-list {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-bottom: 30px;
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+
+    .question-item {
+      padding: 20px;
+      border-radius: 12px;
+      background-color: #f8fafc;
+      border: 1px solid #e1e8f0;
+      transition: all 0.2s;
+    }
+
+    .question-item:hover {
+      background-color: #f0f7ff;
+    }
+
+    .question-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 15px;
+    }
+
+    .question-text {
+      font-size: 1.1rem;
+      line-height: 1.5;
+      color: #334155;
+      flex: 1;
+    }
+
+    .question-number {
+      display: inline-block;
+      width: 32px;
+      height: 32px;
+      background-color: #e1e8f0;
+      color: #64748b;
+      border-radius: 50%;
+      text-align: center;
+      line-height: 32px;
+      font-weight: 600;
+      margin-right: 15px;
+      font-size: 0.9rem;
+    }
+
+    /* True/False Options */
+    .true-false-container {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 15px;
+    }
+
+    .true-false-options {
+      display: flex;
+      gap: 15px;
+    }
+
+    .true-false-btn {
+      width: 100px;
+      height: 45px;
+      border: 2px solid #e1e8f0;
+      background-color: white;
+      border-radius: 10px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+
+    .true-false-btn.true {
+      color: #065f46;
+    }
+
+    .true-false-btn.false {
+      color: #991b1b;
+    }
+
+    .true-false-btn.true:hover {
+      border-color: #10b981;
+      background-color: rgba(16, 185, 129, 0.05);
+    }
+
+    .true-false-btn.false:hover {
+      border-color: #ef4444;
+      background-color: rgba(239, 68, 68, 0.05);
+    }
+
+    .true-false-btn.selected {
+      color: white;
+    }
+
+    .true-false-btn.true.selected {
+      background-color: #10b981;
+      border-color: #10b981;
+    }
+
+    .true-false-btn.false.selected {
+      background-color: #ef4444;
+      border-color: #ef4444;
+    }
+
+    /* Quiz Status */
+    .quiz-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      padding: 15px;
+      background-color: #f0f7ff;
+      border-radius: 10px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .status-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .status-count {
+      font-weight: 600;
+      color: #1a365d;
+      font-size: 1.2rem;
+    }
+
+    .status-label {
+      color: #64748b;
+      font-size: 0.9rem;
+    }
+
+    /* Submit Button */
+    .submit-container {
+      text-align: center;
+      padding-top: 20px;
+      border-top: 1px solid #e1e8f0;
+    }
+
+    .submit-btn {
+      background-color: #10b981;
+      color: white;
+      border: none;
+      padding: 16px 50px;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .submit-btn:hover {
+      background-color: #0da271;
+      transform: translateY(-2px);
+    }
+
+    .submit-btn:disabled {
+      background-color: #cbd5e1;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    /* Understanding Box */
+    .understanding-box {
+      height: 200px;
+    }
+
+    .understanding-levels {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .slider-container {
+      position: relative;
+      margin: 20px 0;
+    }
+
+    .slider-labels {
+      display: flex;
+      justify-content: space-between;
+      position: absolute;
+      width: 100%;
+      top: -25px;
+      font-size: 0.85rem;
+      color: #64748b;
+    }
+
+    .slider {
+      width: 100%;
+      height: 24px;
+      -webkit-appearance: none;
+      appearance: none;
+      background: #1a365d;
+      border-radius: 12px;
+      outline: none;
+      padding: 0 5px;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: white;
+      cursor: pointer;
+      border: 3px solid #1a365d;
+    }
+
+    .slider-value {
+      text-align: center;
+      font-size: 1rem;
+      color: #1a365d;
+      font-weight: 600;
+      margin-top: 10px;
+    }
+
+    /* Speech Rate Box */
+    .speech-box {
+      height: 200px;
+    }
+
+    .rate-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+
+    .rate-btn {
+      padding: 14px;
+      border: 2px solid #e1e8f0;
+      background-color: white;
+      border-radius: 12px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .rate-btn:hover {
+      background-color: #f8fafc;
+      border-color: #cbd5e1;
+    }
+
+    .rate-btn.active {
+      background-color: #10b981;
+      color: white;
+      border-color: #10b981;
+    }
+
+    .rate-btn.slow {
+      color: #ef4444;
+    }
+
+    .rate-btn.ok {
+      color: #eab308;
+    }
+
+    .rate-btn.fast {
+      color: #22c55e;
+    }
+
+    .rate-btn.active.slow {
+      background-color: #ef4444;
+    }
+
+    .rate-btn.active.ok {
+      background-color: #eab308;
+    }
+
+    .rate-btn.active.fast {
+      background-color: #22c55e;
+    }
+
+    /* Buttons Box */
+    .buttons-box {
+      min-height: 150px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .action-btn {
+      padding: 16px;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .emoji-toggle-btn {
+      background-color: #8b5cf6;
+      color: white;
+    }
+
+    .emoji-toggle-btn:hover {
+      background-color: #7c3aed;
+      transform: translateY(-2px);
+    }
+
+    .confusion-btn {
+      background-color: #f97316;
+      color: white;
+    }
+
+    .confusion-btn:hover {
+      background-color: #ea580c;
+      transform: translateY(-2px);
+    }
+
+    /* Emoji Box */
+    .emoji-box {
+      display: none;
+      padding: 20px;
+      border-radius: 12px;
+      background-color: #f8fafc;
+      border: 1px solid #e1e8f0;
+    }
+
+    .emoji-box.show {
+      display: block;
+    }
+
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 15px;
+      margin-top: 15px;
+    }
+
+    .emoji-item {
+      background-color: white;
+      border: 2px solid #e1e8f0;
+      border-radius: 10px;
+      padding: 12px;
+      font-size: 1.8rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      aspect-ratio: 1;
+    }
+
+    .emoji-item:hover {
+      background-color: #f0f7ff;
+      transform: scale(1.05);
+      border-color: #cbd5e1;
+    }
+
+    /* Timer Warning */
+    .timer.warning {
+      color: #f97316;
+      animation: pulse 1s infinite;
+    }
+
+    .timer.critical {
+      color: #ef4444;
+      animation: pulse 0.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    /* Responsive Design */
+    @media (max-width: 1024px) {
+      .quiz-layout {
+        flex-direction: column;
+        padding: 20px;
+      }
+      
+      .quiz-column, .controls-column {
+        width: 100%;
+      }
+      
+      .understanding-box, .speech-box {
+        height: auto;
+      }
+      
+      .questions-list {
+        max-height: 400px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .topbar {
+        padding: 12px 20px;
+      }
+      
+      .quiz-info h3 {
+        font-size: 1.1rem;
+      }
+      
+      .quiz-layout {
+        padding: 15px;
+      }
+      
+      .box {
+        padding: 20px;
+      }
+      
+      .question-header {
+        flex-direction: column;
+        gap: 10px;
+      }
+      
+      .true-false-container {
+        justify-content: flex-start;
+      }
+      
+      .quiz-status {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      
+      .quiz-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+      }
+      
+      .timer-container {
+        align-self: stretch;
+        justify-content: center;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .true-false-options {
+        width: 100%;
+      }
+      
+      .true-false-btn {
+        flex: 1;
+        font-size: 0.9rem;
+        height: 40px;
+      }
+      
+      .question-number {
+        width: 28px;
+        height: 28px;
+        line-height: 28px;
+        margin-right: 10px;
+      }
+      
+      .emoji-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="quiz-info">
+    <h3>True/False Quiz - GMCI Session 3</h3>
+  </div>
+  
+  <button class="back-btn" onclick="location.href='student_session.html'">
+    Back to Session
+  </button>
+</header>
+
+<main class="quiz-layout">
+  <!-- Left Column - Quiz Questions -->
+  <div class="quiz-column">
+    <div class="box quiz-box">
+      <div class="quiz-header">
+        <div class="quiz-title">
+          <h4>True/False Quiz</h4>
+          <div class="quiz-meta">Answer all questions - All questions are visible below</div>
+        </div>
+        
+        <div class="timer-container">
+          <div class="timer" id="timer">15:00</div>
+        </div>
+      </div>
+      
+      <div class="quiz-status">
+        <div class="status-item">
+          <div class="status-count" id="answered-count">0</div>
+          <div class="status-label">Answered</div>
+        </div>
+        <div class="status-item">
+          <div class="status-count" id="total-count">10</div>
+          <div class="status-label">Total Questions</div>
+        </div>
+        <div class="status-item">
+          <div class="status-count" id="time-left">15:00</div>
+          <div class="status-label">Time Remaining</div>
+        </div>
+      </div>
+      
+      <div class="questions-list" id="questions-list">
+        <!-- All questions will be loaded here -->
+      </div>
+      
+      <div class="submit-container">
+        <button class="submit-btn" id="submit-btn" disabled>
+          Submit Quiz
+        </button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Right Column - Controls -->
+  <div class="controls-column">
+    <!-- Understanding Level Box -->
+    <div class="box understanding-box">
+      <h4>Understanding Level</h4>
+      <div class="understanding-levels">
+        <span>Confused</span>
+        <span>Basic</span>
+        <span>Good</span>
+        <span>Very Good</span>
+        <span>Excellent</span>
+      </div>
+      
+      <div class="slider-container">
+        <div class="slider-labels">
+          <span>1</span>
+          <span>2</span>
+          <span>3</span>
+          <span>4</span>
+          <span>5</span>
+        </div>
+        <input type="range" min="1" max="5" value="3" class="slider" id="understanding-slider">
+      </div>
+      
+      <div class="slider-value">
+        Current Level: <span id="slider-value">3 - Good</span>
+      </div>
+    </div>
+    
+    <!-- Speech Rate Box -->
+    <div class="box speech-box">
+      <h4>Speech Rate</h4>
+      <p style="color: #64748b; font-size: 0.9rem; margin-bottom: 10px;">
+        How is the instructor's speaking pace?
+      </p>
+      
+      <div class="rate-buttons">
+        <button class="rate-btn slow" data-rate="slow">
+          <span>Slow</span>
+        </button>
+        <button class="rate-btn ok active" data-rate="ok">
+          <span>Just Right</span>
+        </button>
+        <button class="rate-btn fast" data-rate="fast">
+          <span>Fast</span>
+        </button>
+      </div>
+    </div>
+    
+    <!-- Buttons Box -->
+    <div class="box buttons-box">
+      <button class="action-btn emoji-toggle-btn" id="emoji-toggle-btn">
+        Show Emojis
+      </button>
+      
+      <button class="action-btn confusion-btn" id="confusion-btn">
+        😕 I'm Confused
+      </button>
+    </div>
+    
+    <!-- Emoji Box (Hidden by default) -->
+    <div class="emoji-box" id="emoji-box">
+      <h5 style="color: #1a365d; margin-bottom: 10px;">Quick Feedback Emojis</h5>
+      <div class="emoji-grid">
+        <div class="emoji-item">😀</div>
+        <div class="emoji-item">😐</div>
+        <div class="emoji-item">😕</div>
+        <div class="emoji-item">😍</div>
+        <div class="emoji-item">👍</div>
+        <div class="emoji-item">👎</div>
+        <div class="emoji-item">🤔</div>
+        <div class="emoji-item">😴</div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<script>
+
+</script>
+
+</body>
+</html>
