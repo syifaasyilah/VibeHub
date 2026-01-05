@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Quiz - GMCI Session 3</title>
   <style>
-    /* Simple base styles */
     * {
       margin: 0;
       padding: 0;
@@ -52,12 +51,12 @@
       gap: 20px;
     }
     
-    /* Left column - Quiz */
+    /* Quiz */
     .quiz-column {
       flex: 2;
     }
     
-    /* Right column - Controls */
+    /* Controls */
     .controls-column {
       flex: 1;
     }
@@ -365,7 +364,7 @@
 </div>
 
 <div class="main-container">
-  <!-- Left column: Quiz -->
+  <!-- Quiz -->
   <div class="quiz-column">
     <div class="box">
       <div class="quiz-header">
@@ -403,7 +402,7 @@
     </div>
   </div>
   
-  <!-- Right column: Controls -->
+  <!-- Controls -->
   <div class="controls-column">
     <!-- Understanding level -->
     <div class="box">
@@ -471,7 +470,7 @@
 </div>
 
 <script>
-  // Quiz questions data
+  // Quiz questions
   const quizQuestions = [
     {
       id: 1,
@@ -505,7 +504,7 @@
     }
   ];
   
-  let timeLeft = 15 * 60; // 15 minutes in seconds
+  let timeLeft = 15 * 60;
   let timerInterval;
   let answeredCount = 0;
   
@@ -763,3 +762,4 @@
 </body>
 
 </html>
+
