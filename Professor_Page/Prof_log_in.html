@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Creating a new Course</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f9fc;
+    }
+
+    main{
+      display: flex;
+      align: center;
+    }
+
+    .layout{
+      display: flex;
+      padding-bottom: 50px;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background-color: #2c3e50;
+      height: 70px;
+      color: white;
+      fontsize: 20px;
+      
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header select{
+      background-color: #2d4a7c;
+      color: white;
+      border:none;
+      padding: 8px 15px;
+      border-radius: 7px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    nav a{
+      margin-left: 30px;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
+      font-size: 30px;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    nav a.aktuell{
+      text-decoration: underline;
+      color: white ;
+      text-decoration-color: #D3D3D3;
+    }
+
+    .hamburger {
+      font-size: 40px;
+      cursor: pointer;
+      margin-right: 30px;
+      text-align: center;
+    }
+
+    .hamburger:hover {
+      color: #D3D3D3;
+    }
+
+    .log_in_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      gap:10px;
+      display: inline-block;
+      align: center;
+      margin-top: 25px;
+      margin-left: 20px;
+    }
+
+    .log_in_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+    
+    .container{
+      flex: 1;
+      display: inline-block;
+      justify-content: center;
+      /*padding-top:30px;*/
+      text-align: center;
+    }
+
+    .input_username{
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .input_username:focus{
+      border-color: #3b82f6;
+    }
+
+    .input_username:hover{
+      background-color: #f0f7ff;
+    }
+
+    .input_password{
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      cursor: pointer;
+      transition: border-color 0.2s;
+    }
+
+    .input_password:focus{
+      border-color: #3b82f6;
+    }
+
+    .input_password:hover{
+      background-color: #f0f7ff;
+    }
+
+    .input {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .angaben{
+      display: flex;
+      align-items: center;
+    }
+
+    .log_in_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .log_in_box h3{
+      color: #1a365d;
+      font-size: 45px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e1e8f0;
+    }
+
+    .input_item{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+      gap:20px;
+    }
+
+
+    label{
+      display: block;
+      font-weight: 600;
+      color: #1a365d;
+    }
+
+    .input_container{
+      display: flex;
+      padding: 30px;
+      gap: 50px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .mitte{
+      lex: 1;
+      display: inline-block;
+      justify-content: center;
+      padding-top:60px;
+      text-align: center;
+    }
+
+    .inner_container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .create_account{
+      color: #1a365d;
+      font-size: 20px;
+      margin-top: 20px;
+    }
+
+    .create_account a{
+      color: #10b981;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .create_account a:hover{
+      color: #0da271;
+      font-weight: 600;
+    }
+
+    .header_links{
+      display: flex;
+      justify-content: flex-start;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .frage_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      /*padding-top: 7px;
+      padding-bottom: 7px;*/
+      border-radius: 50px;
+       border: 1px solid #0da271;
+      font-size: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-left: 15px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+
+    .frage_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header_links">
+    <select style="height: 27px;">
+      <option>EN</option>
+      <option>DE</option>
+    </select>
+
+    <button class="frage_btn" onclick="show_message2()">?</button>
+  </div>
+
+    <nav>
+      <a href="#" class="aktuell">Welcome</a>
+    </nav>
+    <div class="hamburger">☰</div>
+  </div>
+
+<main class="layout">
+  <div class="container">
+    <div class="mitte">
+
+      <div class="log_in_box">
+        <h3 align="center" style=" color: #2c3e50;">Log in</h3>
+
+        <div class="input_container">
+        <div class="inner_container">
+        <div class="angaben">
+          <div class="input">
+
+            <div class="input_item">
+              <label>Username:</label>
+              <input type="text" class="input_username" placeholder="Please enter your Username" style="width: 250px; height: 30px;" required/> <br>
+            </div>
+
+            <div class="input_item">
+              <label>Password:</label>
+              <input type="password" class="input_password" placeholder="Please enter your Password" style="width: 250px; height: 30px;" required/> <br>
+            </div>
+
+          </div>
+        </div>
+
+          <div class="buttons">
+
+            <button class="log_in_btn" onclick="show_message()"><h2>Log in</h2></button>
+
+          </div>
+
+          <div class="create_account">New here? <a href="create_new_account.html">Create an Account</a>
+          </div>
+
+        </div>
+        </div>
+      </div>
+    
+      
+  </div>
+</div>
+    
+  </main>
+
+  <script>
+    function show_message2() {
+      alert("In the correct version, usage tips would be displayed here"); 
+    }
+
+    function show_message(){
+      alert("You've successfully logged in.\n\nIn the correct version, the entered data would be compared with the stored data to identify the user and allow or deny access.");
+      window.location.href ='Startseite_Prof.html';
+    }
+</script>
+
+</body>
+</html>
