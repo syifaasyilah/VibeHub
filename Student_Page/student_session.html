@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMCI – Session 3</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+    }
+    
+    /* Topbar */
+    .topbar {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .session-title {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .topbar-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    select, .topbar-btn {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #34495e;
+      background-color: white;
+    }
+    
+    .topbar-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    
+    /* Main layout */
+    .main-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px 50px;
+      gap: 20px;
+    }
+    
+    /* Left column */
+    .left-column {
+      flex: 1;
+    }
+    
+    /* Right column */
+    .right-column {
+      flex: 1;
+    }
+    
+    /* Box styles */
+    .box {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+    
+    .box-title {
+      color: #2c3e50;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 8px;
+    }
+    
+    /* Understanding box */
+    .understanding-slider {
+      width: 100%;
+      margin: 15px 0;
+    }
+    
+    .understanding-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .current-level {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    /* Speech rate box */
+    .rate-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .rate-btn {
+      padding: 12px;
+      border: 2px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      text-align: left;
+    }
+    
+    .rate-btn:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .rate-btn.active {
+      background-color: #27ae60;
+      color: white;
+      border-color: #27ae60;
+    }
+    
+    .rate-btn.slow.active {
+      background-color: #e74c3c;
+      border-color: #e74c3c;
+    }
+    
+    .rate-btn.fast.active {
+      background-color: #3498db;
+      border-color: #3498db;
+    }
+    
+    /* Emoji box */
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .emoji-btn {
+      padding: 15px;
+      border: 2px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      font-size: 24px;
+      cursor: pointer;
+      text-align: center;
+    }
+    
+    .emoji-btn:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .emoji-label {
+      font-size: 12px;
+      color: #7f8c8d;
+      text-align: center;
+      margin-top: 5px;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      padding: 14px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      text-align: center;
+    }
+    
+    .comments-btn {
+      background-color: #27ae60;
+    }
+    
+    .quiz-btn {
+      background-color: #64748b;
+    }
+    
+    .action-btn:hover {
+      opacity: 0.9;
+    }
+    
+    /* Question bar */
+    .question-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      padding: 15px 20px;
+      border-top: 1px solid #ddd;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .question-input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .send-btn, .confusion-btn {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+    }
+    
+    .send-btn {
+      background-color: #27ae60;
+    }
+    
+    .confusion-btn {
+      background-color: #e67e22;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      
+      .emoji-grid {
+        grid-template-columns: repeat(4, 1fr);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .topbar {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      
+      .emoji-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .question-bar {
+        flex-wrap: wrap;
+      }
+      
+      .question-input {
+        width: 100%;
+        margin-bottom: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div id="status-message" style="
+  display:none;
+  background:#e6f4ea;
+  color:#1e4620;
+  padding:8px;
+  margin:10px;
+  border-radius:6px;
+  font-size:14px;">
+  ✔ Feedback successfully sent to the lecturer
+</div>
+
+
+<div class="topbar">
+  <div class="session-title">GMCI Session 3</div>
+  
+  <div class="topbar-controls">
+    <select id="language-select">
+      <option>EN</option>
+      <option>DE</option>
+    </select>
+    
+    <button class="topbar-btn" id="fullscreen-btn">Fullscreen</button>
+    
+    <button class="topbar-btn" id="menu-btn">Menu</button>
+  </div>
+</div>
+
+<div class="main-container">
+  <!-- Left column -->
+  <div class="left-column">
+    <!-- Understanding level -->
+    <div class="box">
+      <div class="box-title">Understanding Level</div>
+      <p style="color: #7f8c8d; margin-bottom: 15px; font-size: 14px;">
+        How well do you understand the current topic?
+      </p>
+      
+      <input type="range" min="1" max="5" value="3" class="understanding-slider" id="understanding-slider">
+      
+      <div class="understanding-labels">
+        <span>Confused</span>
+        <span>Basic</span>
+        <span>Good</span>
+        <span>Very Good</span>
+        <span>Excellent</span>
+      </div>
+      
+      <div class="current-level" id="current-level">Current: Good (3/5)</div>
+    </div>
+    
+    <!-- Speech rate -->
+    <div class="box">
+      <div class="box-title">Speech Rate</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How is the instructor's speaking pace?
+      </p>
+      
+      <div class="rate-buttons">
+        <button class="rate-btn slow" data-rate="slow">Too Slow</button>
+        <button class="rate-btn ok active" data-rate="ok">Just Right</button>
+        <button class="rate-btn fast" data-rate="fast">Too Fast</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Right column -->
+  <div class="right-column">
+    <!-- Emoji feedback -->
+    <div class="box">
+      <div class="box-title">Quick Feedback</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        Click an emoji to send feedback to instructor
+      </p>
+      
+      <div class="emoji-grid">
+        <div>
+          <button class="emoji-btn" data-emoji="😀">😀</button>
+          <div class="emoji-label">Happy</div>
+        </div>
+        <div>
+          <button class="emoji-btn" data-emoji="😐">😐</button>
+          <div class="emoji-label">Neutral</div>
+        </div>
+        <div>
+          <button class="emoji-btn" data-emoji="😕">😕</button>
+          <div class="emoji-label">Confused</div>
+        </div>
+        <div>
+          <button class="emoji-btn" data-emoji="😍">😍</button>
+          <div class="emoji-label">Excited</div>
+        </div>
+        <div>
+          <button class="emoji-btn" data-emoji="👍">👍</button>
+          <div class="emoji-label">Good</div>
+        </div>
+        <div>
+          <button class="emoji-btn" data-emoji="👎">👎</button>
+          <div class="emoji-label">Bad</div>
+        </div>
+        <div>
+          <button class="emoji-btn" data-emoji="🤔">🤔</button>
+          <div class="emoji-label">Thinking</div>
+        </div>
+        <div>
+          <button class="emoji-btn" data-emoji="😴">😴</button>
+          <div class="emoji-label">Bored</div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Additional controls -->
+    <div class="box">
+      <div class="box-title">Additional Controls</div>
+      <div class="action-buttons">
+        <button class="action-btn comments-btn" id="comments-btn">View Comments</button>
+        <button class="action-btn quiz-btn" id="quiz-btn">Open Quiz</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Question bar -->
+<div class="question-bar">
+  <input type="text" class="question-input" id="question-input" placeholder="Type a question or comment...">
+  <button class="send-btn" id="send-btn">Send</button>
+  <button class="confusion-btn" id="confusion-btn">😕 I'm Confused</button>
+</div>
+
+<script>  
+  // Understanding slider
+  const understandingSlider = document.getElementById('understanding-slider');
+  const currentLevel = document.getElementById('current-level');
+  
+  understandingSlider.addEventListener('input', function() {
+    const value = parseInt(this.value);
+    const levels = ['Confused', 'Basic', 'Good', 'Very Good', 'Excellent'];
+    currentLevel.textContent = `Current: ${levels[value-1]} (${value}/5)`;
+    console.log(`Prototype: Understanding level set to ${value}`);
+  });
+  
+  // Speech rate buttons
+  const rateButtons = document.querySelectorAll('.rate-btn');
+  
+  rateButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      rateButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      const rate = this.getAttribute('data-rate');
+      console.log(`Prototype: Speech rate set to "${rate}"`);
+      
+      // Simple feedback
+      if (rate === 'slow') {
+        alert('Prototype: Feedback sent - "Speaking too slow"');
+      } else if (rate === 'fast') {
+        alert('Prototype: Feedback sent - "Speaking too fast"');
+      }
+    });
+  });
+  
+  // Emoji buttons
+  const emojiButtons = document.querySelectorAll('.emoji-btn');
+  
+  emojiButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      const emoji = this.getAttribute('data-emoji');
+      
+      // Visual feedback
+      const originalText = this.textContent;
+      this.textContent = '✓';
+      this.style.backgroundColor = '#d5f4e6';
+      
+      setTimeout(() => {
+        this.textContent = originalText;
+        this.style.backgroundColor = '';
+      }, 500);
+      
+      console.log(`Prototype: Emoji ${emoji} sent to instructor`);
+      alert(`Prototype: Sent ${emoji} feedback to instructor`);
+    });
+  });
+  
+  // Additional controls
+  document.getElementById('comments-btn').addEventListener('click', function() {
+    // Navigate to comments page
+    window.location.href = 'student_comments.html';
+  });
+  
+  document.getElementById('quiz-btn').addEventListener('click', function() {
+    // Navigate to quiz page
+    window.location.href = 'student_quiz.html';
+  });
+  
+  // Question bar
+  document.getElementById('send-btn').addEventListener('click', function() {
+    const question = document.getElementById('question-input').value.trim();
+    
+    if (question) {
+      alert(`Prototype: Question sent to instructor:\n\n"${question}"\n\nIn real implementation:\n- Appears in instructor dashboard\n- Other students can see and upvote it\n- Instructor can respond`);
+      document.getElementById('question-input').value = '';
+    } else {
+      alert('Prototype: Please type a question first');
+    }
+  });
+  
+  // Confusion button
+  document.getElementById('confusion-btn').addEventListener('click', function() {
+    alert('Prototype: Instructor notified that you are confused\n\nIn real implementation:\n- Instructor gets a notification\n- May slow down or explain again\n- Other confused students are anonymous');
+    
+    // Visual feedback
+    const originalText = this.textContent;
+    this.textContent = '✓ Reported';
+    this.style.backgroundColor = '#d35400';
+    
+    setTimeout(() => {
+      this.textContent = originalText;
+      this.style.backgroundColor = '';
+    }, 1000);
+  });
+  
+  // Topbar controls
+  document.getElementById('language-select').addEventListener('change', function() {
+    console.log(`Prototype: Language changed to ${this.value}`);
+  });
+  
+  document.getElementById('fullscreen-btn').addEventListener('click', function() {
+    alert('Prototype: Would toggle fullscreen mode\n\nIn real implementation:\n- Video/slides take full screen\n- Controls stay accessible');
+  });
+  
+  document.getElementById('menu-btn').addEventListener('click', function() {
+    alert('Prototype: Menu would open\n\nOptions:\n- Session settings\n- Technical help\n- Leave session\n- Report issues');
+  });
+  
+  // Allow Enter key to send questions
+  document.getElementById('question-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      document.getElementById('send-btn').click();
+    }
+  });
+</script>
+
+</body>
+</html>

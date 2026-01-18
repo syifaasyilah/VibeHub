@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMCI Session 3 - Comments</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+    }
+    
+    /* Topbar */
+    .topbar {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .topbar h3 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .back-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    /* Main layout */
+    .main-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px 50px;
+      gap: 20px;
+    }
+    
+    /* Comments */
+    .comments-column {
+      flex: 2;
+    }
+    
+    /* Controls */
+    .controls-column {
+      flex: 1;
+    }
+    
+    /* Box styles */
+    .box {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+    }
+    
+    .box-title {
+      color: #2c3e50;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 8px;
+    }
+    
+    /* Comments box */
+    .comments-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .sort-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .sort-btn {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .sort-btn.active {
+      background-color: #3498db;
+      color: white;
+      border-color: #3498db;
+    }
+    
+    /* Comments list */
+    .comments-list {
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    
+    .comment {
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      border-left: 4px solid #ddd;
+    }
+    
+    .comment.my-comment {
+      border-left: 4px solid #3498db;
+      background-color: #e8f4fc;
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .comment-author {
+      font-size: 14px;
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    
+    .comment-author.you {
+      color: #3498db;
+      font-weight: bold;
+    }
+    
+    .comment-time {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+    
+    .comment-text {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    .comment-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .comment-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .edit-btn, .delete-btn {
+      padding: 4px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      color: white;
+    }
+    
+    .edit-btn {
+      background-color: #f39c12;
+    }
+    
+    .delete-btn {
+      background-color: #e74c3c;
+    }
+    
+    .vote-buttons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .vote-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #7f8c8d;
+    }
+    
+    .vote-count {
+      font-weight: bold;
+      margin: 0 10px;
+      min-width: 30px;
+      text-align: center;
+    }
+    
+    /* Understanding box */
+    .understanding-slider {
+      width: 100%;
+      margin: 15px 0;
+    }
+    
+    .understanding-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .current-level {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    /* Speech rate box */
+    .rate-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .rate-btn {
+      padding: 10px;
+      border: 2px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+    }
+    
+    .rate-btn.active {
+      background-color: #27ae60;
+      color: white;
+      border-color: #27ae60;
+    }
+    
+    /* Action buttons */
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      text-align: center;
+    }
+    
+    .emoji-btn {
+      background-color: #64748b;
+    }
+    
+    /* Emoji box */
+    .emoji-box {
+      display: none;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      margin-top: 15px;
+      border: 1px solid #ddd;
+    }
+    
+    .emoji-box.show {
+      display: block;
+    }
+    
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .emoji {
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      font-size: 20px;
+      text-align: center;
+      cursor: pointer;
+    }
+    
+    /* Edit comment modal */
+    .edit-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .edit-modal.active {
+      display: flex;
+    }
+    
+    .edit-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+    }
+    
+    .edit-textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 14px;
+      resize: vertical;
+    }
+    
+    .edit-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    
+    .save-btn, .cancel-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    
+    .save-btn {
+      background-color: #27ae60;
+      color: white;
+    }
+    
+    .cancel-btn {
+      background-color: #7f8c8d;
+      color: white;
+    }
+    
+    /* Question bar */
+    .question-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      padding: 15px 20px;
+      border-top: 1px solid #ddd;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .question-input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+    
+    .send-btn, .confusion-btn {
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .send-btn {
+      background-color: #27ae60;
+    }
+    
+    .confusion-btn {
+      background-color: #e67e22;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      
+      .comments-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .sort-buttons {
+        align-self: flex-end;
+      }
+      
+      .comment-actions {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      
+      .comment-buttons {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="topbar">
+  <h3>GMCI Session 3 - Comments</h3>
+  <button class="back-btn" id="back-btn">← Back to Session</button>
+</div>
+
+<div class="main-container">
+  <!-- Comments -->
+  <div class="comments-column">
+    <div class="box">
+      <div class="comments-header">
+        <div class="box-title">Student Questions & Comments</div>
+        <div class="sort-buttons">
+          <button class="sort-btn active" data-sort="recent">Newest</button>
+          <button class="sort-btn" data-sort="votes">Top Votes</button>
+        </div>
+      </div>
+      
+      <div class="comments-list" id="comments-list">
+        <!-- Comments loaded here -->
+      </div>
+    </div>
+  </div>
+  
+  <!-- Controls -->
+  <div class="controls-column">
+    <!-- Understanding level -->
+    <div class="box">
+      <div class="box-title">Understanding Level</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How well do you understand the current topic?
+      </p>
+      
+      <input type="range" min="1" max="5" value="3" class="understanding-slider" id="understanding-slider">
+      
+      <div class="understanding-labels">
+        <span>Confused</span>
+        <span>Basic</span>
+        <span>Good</span>
+        <span>Very Good</span>
+        <span>Excellent</span>
+      </div>
+      
+      <div class="current-level" id="current-level">Current: Good (3/5)</div>
+    </div>
+    
+    <!-- Speech rate -->
+    <div class="box">
+      <div class="box-title">Speech Rate</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How is the instructor's speaking pace?
+      </p>
+      
+      <div class="rate-buttons">
+        <button class="rate-btn" data-rate="slow">Too Slow</button>
+        <button class="rate-btn active" data-rate="ok">Just Right</button>
+        <button class="rate-btn" data-rate="fast">Too Fast</button>
+      </div>
+    </div>
+    
+    <!-- Action buttons -->
+    <div class="box">
+      <div class="action-buttons">
+        <button class="action-btn emoji-btn" id="emoji-toggle-btn">Show Emojis</button>
+      </div>
+      
+      <div class="emoji-box" id="emoji-box">
+        <div style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+          Click to send feedback:
+        </div>
+        <div class="emoji-grid">
+          <div class="emoji">😀</div>
+          <div class="emoji">😐</div>
+          <div class="emoji">😕</div>
+          <div class="emoji">😍</div>
+          <div class="emoji">👍</div>
+          <div class="emoji">👎</div>
+          <div class="emoji">🤔</div>
+          <div class="emoji">😴</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Edit comment modal -->
+<div class="edit-modal" id="edit-modal">
+  <div class="edit-content">
+    <h3>Edit Your Comment</h3>
+    <textarea class="edit-textarea" id="edit-textarea" placeholder="Edit your comment..."></textarea>
+    <div class="edit-buttons">
+      <button class="cancel-btn" id="cancel-edit-btn">Cancel</button>
+      <button class="save-btn" id="save-edit-btn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<!-- Question bar -->
+<div class="question-bar">
+  <input type="text" class="question-input" id="question-input" placeholder="Type your question or comment...">
+  <button class="send-btn" id="send-btn">Send</button>
+  <button class="confusion-btn" id="confusion-btn">😕 I'm Confused</button>
+</div>
+
+<script>
+  // In a real app, this would come from authentication
+  const currentUserId = "user_123";
+  
+  const sampleComments = [
+    {
+      id: 1,
+      text: "Can you explain the HCI design principles again?",
+      time: "10 min ago",
+      votes: 5,
+      userId: "user_456", // Other user
+      userVoted: null
+    },
+    {
+      id: 2,
+      text: "The example with the mobile app was really helpful!",
+      time: "15 min ago",
+      votes: 8,
+      userId: currentUserId, // This is YOUR comment
+      userVoted: null
+    },
+    {
+      id: 3,
+      text: "Too fast here, can we slow down?",
+      time: "20 min ago",
+      votes: 3,
+      userId: "user_789", // Other user
+      userVoted: null
+    },
+    {
+      id: 4,
+      text: "Will this be on the exam?",
+      time: "25 min ago",
+      votes: 2,
+      userId: "user_999", // Other user
+      userVoted: null
+    },
+    {
+      id: 5,
+      text: "Can we have more practice exercises?",
+      time: "30 min ago",
+      votes: 4,
+      userId: currentUserId, // This is YOUR comment
+      userVoted: null
+    }
+  ];
+  
+  let comments = [...sampleComments];
+  let editingCommentId = null;
+  
+  // Load comments
+  function loadComments() {
+    const commentsList = document.getElementById('comments-list');
+    commentsList.innerHTML = '';
+    
+    comments.forEach(comment => {
+      const isMyComment = comment.userId === currentUserId;
+      const authorText = isMyComment ? "You" : "Anonymous Student";
+      
+      const commentEl = document.createElement('div');
+      commentEl.className = `comment ${isMyComment ? 'my-comment' : ''}`;
+      commentEl.innerHTML = `
+        <div class="comment-header">
+          <div class="comment-author ${isMyComment ? 'you' : ''}">${authorText}</div>
+          <div class="comment-time">${comment.time}</div>
+        </div>
+        <div class="comment-text">${comment.text}</div>
+        <div class="comment-actions">
+          ${isMyComment ? `
+            <div class="comment-buttons">
+              <button class="edit-btn" data-id="${comment.id}">Edit</button>
+              <button class="delete-btn" data-id="${comment.id}">Delete</button>
+            </div>
+          ` : ''}
+          <div class="vote-buttons">
+            <button class="vote-btn upvote-btn" data-id="${comment.id}">↑</button>
+            <div class="vote-count">${comment.votes}</div>
+            <button class="vote-btn downvote-btn" data-id="${comment.id}">↓</button>
+          </div>
+        </div>
+      `;
+      commentsList.appendChild(commentEl);
+    });
+    
+    // Add event listeners
+    document.querySelectorAll('.upvote-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseInt(this.getAttribute('data-id'));
+        voteComment(commentId, 'up');
+      });
+    });
+    
+    document.querySelectorAll('.downvote-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseInt(this.getAttribute('data-id'));
+        voteComment(commentId, 'down');
+      });
+    });
+    
+    // Add event listeners for edit/delete buttons
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseInt(this.getAttribute('data-id'));
+        editComment(commentId);
+      });
+    });
+    
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseInt(this.getAttribute('data-id'));
+        deleteComment(commentId);
+      });
+    });
+  }
+  
+  // Vote on a comment
+  function voteComment(commentId, voteType) {
+    const comment = comments.find(c => c.id === commentId);
+    
+    if (!comment) return;
+    
+    // Simple voting logic for prototype
+    if (comment.userVoted === voteType) {
+      // Already voted this way - remove vote
+      comment.userVoted = null;
+      comment.votes += (voteType === 'up' ? -1 : 1);
+    } else if (comment.userVoted === null) {
+      // New vote
+      comment.userVoted = voteType;
+      comment.votes += (voteType === 'up' ? 1 : -1);
+    } else {
+      // Changing vote
+      comment.userVoted = voteType;
+      comment.votes += (voteType === 'up' ? 2 : -2);
+    }
+    
+    console.log(`Prototype: ${voteType === 'up' ? 'Upvoted' : 'Downvoted'} comment ${commentId}`);
+    loadComments();
+  }
+  
+  // Edit a comment
+  function editComment(commentId) {
+    const comment = comments.find(c => c.id === commentId);
+    
+    if (!comment || comment.userId !== currentUserId) {
+      alert("You can only edit your own comments");
+      return;
+    }
+    
+    editingCommentId = commentId;
+    document.getElementById('edit-textarea').value = comment.text;
+    document.getElementById('edit-modal').classList.add('active');
+  }
+  
+  // Save edited comment
+  document.getElementById('save-edit-btn').addEventListener('click', function() {
+    if (!editingCommentId) return;
+    
+    const newText = document.getElementById('edit-textarea').value.trim();
+    
+    if (!newText) {
+      alert("Comment cannot be empty");
+      return;
+    }
+    
+    const comment = comments.find(c => c.id === editingCommentId);
+    if (comment) {
+      comment.text = newText;
+      comment.time = "just now (edited)";
+      
+      console.log(`Prototype: Comment ${editingCommentId} edited`);
+      alert("Comment updated successfully");
+    }
+    
+    // Close modal and reload comments
+    document.getElementById('edit-modal').classList.remove('active');
+    editingCommentId = null;
+    loadComments();
+  });
+  
+  // Cancel edit
+  document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+    document.getElementById('edit-modal').classList.remove('active');
+    editingCommentId = null;
+  });
+  
+  // Delete a comment
+  function deleteComment(commentId) {
+    const comment = comments.find(c => c.id === commentId);
+    
+    if (!comment || comment.userId !== currentUserId) {
+      alert("You can only delete your own comments");
+      return;
+    }
+    
+    if (confirm("Are you sure you want to delete this comment?")) {
+      comments = comments.filter(c => c.id !== commentId);
+      console.log(`Prototype: Comment ${commentId} deleted`);
+      alert("Comment deleted successfully");
+      loadComments();
+    }
+  }
+  
+  // Sort buttons
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      
+      const sortType = this.getAttribute('data-sort');
+      
+      if (sortType === 'votes') {
+        comments.sort((a, b) => b.votes - a.votes);
+      } else {
+        comments.sort((a, b) => b.id - a.id);
+      }
+      
+      console.log(`Prototype: Sorted comments by ${sortType}`);
+      loadComments();
+    });
+  });
+  
+  // Understanding slider
+  const understandingSlider = document.getElementById('understanding-slider');
+  const currentLevel = document.getElementById('current-level');
+  
+  understandingSlider.addEventListener('input', function() {
+    const value = parseInt(this.value);
+    const levels = ['Confused', 'Basic', 'Good', 'Very Good', 'Excellent'];
+    currentLevel.textContent = `Current: ${levels[value-1]} (${value}/5)`;
+    console.log(`Prototype: Understanding level set to ${value}`);
+  });
+  
+  // Speech rate buttons
+  const rateButtons = document.querySelectorAll('.rate-btn');
+  
+  rateButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      rateButtons.forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+      
+      const rate = this.getAttribute('data-rate');
+      console.log(`Prototype: Speech rate set to "${rate}"`);
+    });
+  });
+  
+  // Emoji toggle
+  const emojiToggleBtn = document.getElementById('emoji-toggle-btn');
+  const emojiBox = document.getElementById('emoji-box');
+  
+  emojiToggleBtn.addEventListener('click', function() {
+    const isVisible = emojiBox.classList.contains('show');
+    
+    if (isVisible) {
+      emojiBox.classList.remove('show');
+      this.textContent = 'Show Emojis';
+    } else {
+      emojiBox.classList.add('show');
+      this.textContent = 'Hide Emojis';
+    }
+  });
+  
+  // Emoji buttons
+  document.querySelectorAll('.emoji').forEach(emoji => {
+    emoji.addEventListener('click', function() {
+      const emojiText = this.textContent;
+      
+      const originalText = this.textContent;
+      this.textContent = '✓';
+      this.style.backgroundColor = '#d5f4e6';
+      
+      setTimeout(() => {
+        this.textContent = originalText;
+        this.style.backgroundColor = '';
+      }, 500);
+      
+      console.log(`Prototype: Sent ${emojiText} feedback`);
+      alert(`Prototype: Sent ${emojiText} to instructor`);
+    });
+  });
+  
+  // Confusion button
+  document.getElementById('confusion-btn').addEventListener('click', function() {
+    alert('Prototype: Instructor notified that you are confused\n\nIn real implementation:\n- Instructor gets a notification\n- May slow down or explain again\n- Other confused students are anonymous');
+  });
+  
+  // Send question
+  document.getElementById('send-btn').addEventListener('click', function() {
+    const questionInput = document.getElementById('question-input');
+    const question = questionInput.value.trim();
+    
+    if (question) {
+      // Add new comment to top
+      const newComment = {
+        id: comments.length > 0 ? Math.max(...comments.map(c => c.id)) + 1 : 1,
+        text: question,
+        time: "just now",
+        votes: 0,
+        userId: currentUserId, // Mark as your comment
+        userVoted: null
+      };
+      
+      comments.unshift(newComment);
+      questionInput.value = '';
+      
+      console.log(`Prototype: New question posted: "${question}"`);
+      alert(`Prototype: Question posted to comments\n\nOther students can now see and vote on it`);
+      
+      loadComments();
+    } else {
+      alert('Prototype: Please type a question first');
+    }
+  });
+  
+  // Back button
+  document.getElementById('back-btn').addEventListener('click', function() {
+    window.location.href = 'student_session.html';
+  });
+  
+  // Allow Enter key to send questions
+  document.getElementById('question-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+      document.getElementById('send-btn').click();
+    }
+  });
+  
+  // Initialize
+  loadComments();
+</script>
+
+</body>
+</html>
