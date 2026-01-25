@@ -1,0 +1,962 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GMCI Session 3 - Comments</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: #333;
+      min-height: 100vh;
+    }
+    
+    .topbar {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .topbar h3 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .back-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 8px 15px;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .back-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    .main-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px 80px;
+      gap: 20px;
+    }
+    
+    .comments-column {
+      flex: 2;
+    }
+    
+    .controls-column {
+      flex: 1;
+    }
+    
+    .box {
+      background-color: white;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #ddd;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .box-title {
+      color: #2c3e50;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 8px;
+    }
+    
+    .comments-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .sort-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .sort-btn {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+      transition: all 0.2s;
+    }
+
+    .sort-btn:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .sort-btn.active {
+      background-color: #3498db;
+      color: white;
+      border-color: #3498db;
+    }
+    
+    .comments-list {
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    
+    .comment {
+      padding: 15px;
+      margin-bottom: 15px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      border-left: 4px solid #ddd;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .comment.my-comment {
+      border-left: 4px solid #3498db;
+      background-color: #e8f4fc;
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      position: relative;
+    }
+    
+    .comment-author {
+      font-size: 14px;
+      color: #7f8c8d;
+      font-style: italic;
+    }
+    
+    .comment-author.you {
+      color: #3498db;
+      font-weight: bold;
+    }
+    
+    .comment-time {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+    
+    .comment-text {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    .comment-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .comment-buttons {
+      display: flex;
+      gap: 10px;
+    }
+    
+    .edit-btn, .delete-btn {
+      padding: 4px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+      color: white;
+      transition: all 0.2s;
+    }
+    
+    .edit-btn {
+      background-color: #f39c12;
+    }
+
+    .edit-btn:hover {
+      background-color: #e67e22;
+    }
+    
+    .delete-btn {
+      background-color: #e74c3c;
+    }
+
+    .delete-btn:hover {
+      background-color: #c0392b;
+    }
+    
+    .vote-buttons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .vote-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #7f8c8d;
+      transition: all 0.2s;
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+    }
+
+    .vote-btn:hover {
+      background-color: #ecf0f1;
+    }
+
+    .vote-btn.upvoted {
+      color: #27ae60;
+      font-weight: bold;
+    }
+
+    .vote-btn.downvoted {
+      color: #e74c3c;
+      font-weight: bold;
+    }
+    
+    .vote-count {
+      font-weight: bold;
+      margin: 0 10px;
+      min-width: 30px;
+      text-align: center;
+      font-size: 16px;
+    }
+    
+    .understanding-slider {
+      width: 100%;
+      margin: 15px 0;
+    }
+    
+    .understanding-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .current-level {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .rate-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    
+    .rate-btn {
+      padding: 10px;
+      border: 2px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      cursor: pointer;
+      text-align: left;
+      transition: all 0.2s;
+    }
+
+    .rate-btn:hover {
+      background-color: #f8f9fa;
+    }
+    
+    .rate-btn.active {
+      background-color: #27ae60;
+      color: white;
+      border-color: #27ae60;
+    }
+    
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .action-btn {
+      padding: 12px;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      color: white;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    
+    .emoji-btn {
+      background-color: #64748b;
+    }
+
+    .emoji-btn:hover {
+      background-color: #475569;
+    }
+    
+    .emoji-box {
+      display: none;
+      padding: 15px;
+      background-color: #f8f9fa;
+      border-radius: 6px;
+      margin-top: 15px;
+      border: 1px solid #ddd;
+    }
+    
+    .emoji-box.show {
+      display: block;
+    }
+    
+    .emoji-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 10px;
+    }
+    
+    .emoji {
+      padding: 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 6px;
+      font-size: 20px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .emoji:hover {
+      background-color: #e8f4fc;
+      transform: scale(1.1);
+    }
+    
+    .edit-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .edit-modal.active {
+      display: flex;
+    }
+    
+    .edit-content {
+      background-color: white;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    
+    .edit-textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      margin: 10px 0;
+      font-size: 14px;
+      resize: vertical;
+      font-family: Arial, sans-serif;
+    }
+
+    .edit-textarea:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+    
+    .edit-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    
+    .save-btn, .cancel-btn {
+      padding: 8px 15px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    
+    .save-btn {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .save-btn:hover {
+      background-color: #219653;
+    }
+    
+    .cancel-btn {
+      background-color: #7f8c8d;
+      color: white;
+    }
+
+    .cancel-btn:hover {
+      background-color: #6c7a89;
+    }
+    
+    .question-bar {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background-color: white;
+      padding: 15px 20px;
+      border-top: 1px solid #ddd;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      box-shadow: 0 -2px 10px rgba(0,0,0,0.1);
+    }
+    
+    .question-input {
+      flex: 1;
+      padding: 10px 15px;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      font-size: 16px;
+    }
+
+    .question-input:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+    
+    .send-btn, .confusion-btn {
+      padding: 10px 20px;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .send-btn {
+      background-color: #27ae60;
+    }
+
+    .send-btn:hover {
+      background-color: #219653;
+    }
+
+    .send-btn:disabled {
+      background-color: #bdc3c7;
+      cursor: not-allowed;
+    }
+    
+    .confusion-btn {
+      background-color: #e67e22;
+    }
+
+    .confusion-btn:hover {
+      background-color: #d35400;
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #27ae60;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 2000;
+      display: none;
+    }
+
+    .notification.show {
+      display: block;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .notification.error {
+      background-color: #e74c3c;
+    }
+    
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+      
+      .comments-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+      }
+      
+      .sort-buttons {
+        align-self: flex-end;
+      }
+      
+      .comment-actions {
+        flex-direction: column;
+        gap: 10px;
+        align-items: flex-start;
+      }
+      
+      .comment-buttons {
+        align-self: flex-start;
+      }
+    }
+  </style>
+</head>
+<body>
+
+<div class="notification" id="notification"></div>
+
+<div class="topbar">
+  <h3>GMCI Session 3 - Comments</h3>
+  <button class="back-btn" id="back-btn">← Back to Session</button>
+</div>
+
+<div class="main-container">
+  <div class="comments-column">
+    <div class="box">
+      <div class="comments-header">
+        <div class="box-title">Student Questions & Comments</div>
+        <div class="sort-buttons">
+          <button class="sort-btn active" data-sort="recent">Newest</button>
+          <button class="sort-btn" data-sort="votes">Top Votes</button>
+        </div>
+      </div>
+      
+      <div class="comments-list" id="comments-list"></div>
+    </div>
+  </div>
+  
+  <div class="controls-column">
+    <div class="box">
+      <div class="box-title">Understanding Level</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How well do you understand the current topic?
+      </p>
+      
+      <input type="range" min="1" max="5" value="3" class="understanding-slider" id="understanding-slider">
+      
+      <div class="understanding-labels">
+        <span>Confused</span>
+        <span>Basic</span>
+        <span>Good</span>
+        <span>Very Good</span>
+        <span>Excellent</span>
+      </div>
+      
+      <div class="current-level" id="current-level">Current: Good (3/5)</div>
+    </div>
+    
+    <div class="box">
+      <div class="box-title">Speech Rate</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How is the instructor's speaking pace?
+      </p>
+      
+      <div class="rate-buttons">
+        <button class="rate-btn" data-rate="slow">Too Slow</button>
+        <button class="rate-btn active" data-rate="ok">Just Right</button>
+        <button class="rate-btn" data-rate="fast">Too Fast</button>
+      </div>
+    </div>
+    
+    <div class="box">
+      <div class="action-buttons">
+        <button class="action-btn emoji-btn" id="emoji-toggle-btn">Show Emojis</button>
+      </div>
+      
+      <div class="emoji-box" id="emoji-box">
+        <div style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+          Click to send feedback:
+        </div>
+        <div class="emoji-grid">
+          <div class="emoji">😀</div>
+          <div class="emoji">😐</div>
+          <div class="emoji">😕</div>
+          <div class="emoji">😃</div>
+          <div class="emoji">👍</div>
+          <div class="emoji">👎</div>
+          <div class="emoji">🤔</div>
+          <div class="emoji">😴</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="edit-modal" id="edit-modal">
+  <div class="edit-content">
+    <h3>Edit Your Comment</h3>
+    <textarea class="edit-textarea" id="edit-textarea" placeholder="Edit your comment..."></textarea>
+    <div class="edit-buttons">
+      <button class="cancel-btn" id="cancel-edit-btn">Cancel</button>
+      <button class="save-btn" id="save-edit-btn">Save Changes</button>
+    </div>
+  </div>
+</div>
+
+<div class="question-bar">
+  <input type="text" class="question-input" id="question-input" placeholder="Type your question or comment...">
+  <button class="send-btn" id="send-btn" disabled>Send</button>
+  <button class="confusion-btn" id="confusion-btn">😕 I'm Confused</button>
+</div>
+
+<script>
+  const currentUserId = "user_123";
+  
+  let comments = [];
+  let editingCommentId = null;
+  let currentSort = 'recent';
+
+  function loadComments() {
+    const stored = localStorage.getItem('sessionComments');
+    if (stored) {
+      comments = JSON.parse(stored);
+    } else {
+      comments = [
+        {
+          id: Date.now() - 600000,
+          text: "Can you explain the HCI design principles again?",
+          timestamp: Date.now() - 600000,
+          votes: 5,
+          userId: "user_456",
+          userVote: null
+        },
+        {
+          id: Date.now() - 900000,
+          text: "The example with the mobile app was really helpful!",
+          timestamp: Date.now() - 900000,
+          votes: 8,
+          userId: currentUserId,
+          userVote: null
+        },
+        {
+          id: Date.now() - 1200000,
+          text: "Too fast here, can we slow down?",
+          timestamp: Date.now() - 1200000,
+          votes: 3,
+          userId: "user_789",
+          userVote: null
+        }
+      ];
+      saveComments();
+    }
+    
+    const questions = JSON.parse(localStorage.getItem('sessionQuestions') || '[]');
+    questions.forEach(q => {
+      const exists = comments.find(c => c.text === q.text);
+      if (!exists) {
+        comments.push({
+          id: Date.now() + Math.random(),
+          text: q.text,
+          timestamp: new Date(q.timestamp).getTime(),
+          votes: 0,
+          userId: currentUserId,
+          userVote: null
+        });
+      }
+    });
+    
+    renderComments();
+  }
+
+  function saveComments() {
+    localStorage.setItem('sessionComments', JSON.stringify(comments));
+  }
+
+  function getTimeAgo(timestamp) {
+    const seconds = Math.floor((Date.now() - timestamp) / 1000);
+    if (seconds < 60) return 'just now';
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes} min ago`;
+    const hours = Math.floor(minutes / 60);
+    if (hours < 24) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    const days = Math.floor(hours / 24);
+    return `${days} day${days > 1 ? 's' : ''} ago`;
+  }
+
+  function sortComments() {
+    if (currentSort === 'votes') {
+      comments.sort((a, b) => b.votes - a.votes);
+    } else {
+      comments.sort((a, b) => b.timestamp - a.timestamp);
+    }
+  }
+
+  function renderComments() {
+    sortComments();
+    const commentsList = document.getElementById('comments-list');
+    commentsList.innerHTML = '';
+    
+    if (comments.length === 0) {
+      commentsList.innerHTML = '<p style="text-align:center; color:#7f8c8d; padding:20px;">No comments yet. Be the first to comment!</p>';
+      return;
+    }
+    
+    comments.forEach(comment => {
+      const isMyComment = comment.userId === currentUserId;
+      const authorText = isMyComment ? "You" : "Anonymous Student";
+      
+      const commentEl = document.createElement('div');
+      commentEl.className = `comment ${isMyComment ? 'my-comment' : ''}`;
+      commentEl.innerHTML = `
+        <div class="comment-header">
+          <div class="comment-author ${isMyComment ? 'you' : ''}">${authorText}</div>
+          <div class="comment-time">${getTimeAgo(comment.timestamp)}</div>
+        </div>
+        <div class="comment-text">${comment.text}</div>
+        <div class="comment-actions">
+          ${isMyComment ? `
+            <div class="comment-buttons">
+              <button class="edit-btn" data-id="${comment.id}">Edit</button>
+              <button class="delete-btn" data-id="${comment.id}">Delete</button>
+            </div>
+          ` : '<div></div>'}
+          <div class="vote-buttons">
+            <button class="vote-btn upvote-btn ${comment.userVote === 'up' ? 'upvoted' : ''}" data-id="${comment.id}">↑</button>
+            <div class="vote-count">${comment.votes}</div>
+            <button class="vote-btn downvote-btn ${comment.userVote === 'down' ? 'downvoted' : ''}" data-id="${comment.id}">↓</button>
+          </div>
+        </div>
+      `;
+      commentsList.appendChild(commentEl);
+    });
+    
+    attachEventListeners();
+  }
+
+  function attachEventListeners() {
+    document.querySelectorAll('.upvote-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseFloat(this.getAttribute('data-id'));
+        voteComment(commentId, 'up');
+      });
+    });
+    
+    document.querySelectorAll('.downvote-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseFloat(this.getAttribute('data-id'));
+        voteComment(commentId, 'down');
+      });
+    });
+    
+    document.querySelectorAll('.edit-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseFloat(this.getAttribute('data-id'));
+        editComment(commentId);
+      });
+    });
+    
+    document.querySelectorAll('.delete-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseFloat(this.getAttribute('data-id'));
+        deleteComment(commentId);
+      });
+    });
+  }
+
+  function voteComment(commentId, voteType) {
+    const comment = comments.find(c => c.id === commentId);
+    if (!comment) return;
+    
+    if (comment.userVote === voteType) {
+      comment.userVote = null;
+      comment.votes += (voteType === 'up' ? -1 : 1);
+    } else if (comment.userVote === null) {
+      comment.userVote = voteType;
+      comment.votes += (voteType === 'up' ? 1 : -1);
+    } else {
+      comment.userVote = voteType;
+      comment.votes += (voteType === 'up' ? 2 : -2);
+    }
+    
+    saveComments();
+    renderComments();
+  }
+
+  function editComment(commentId) {
+    const comment = comments.find(c => c.id === commentId);
+    if (!comment || comment.userId !== currentUserId) return;
+    
+    editingCommentId = commentId;
+    document.getElementById('edit-textarea').value = comment.text;
+    document.getElementById('edit-modal').classList.add('active');
+  }
+
+  function deleteComment(commentId) {
+    const comment = comments.find(c => c.id === commentId);
+    if (!comment || comment.userId !== currentUserId) return;
+    
+    if (confirm("Are you sure you want to delete this comment?")) {
+      comments = comments.filter(c => c.id !== commentId);
+      saveComments();
+      renderComments();
+      showNotification('Comment deleted successfully');
+    }
+  }
+
+  function showNotification(message, isError = false) {
+    const notif = document.getElementById('notification');
+    notif.textContent = message;
+    notif.className = 'notification show';
+    if (isError) notif.classList.add('error');
+    
+    setTimeout(() => {
+      notif.classList.remove('show');
+    }, 3000);
+  }
+
+  document.getElementById('save-edit-btn').addEventListener('click', function() {
+    if (!editingCommentId) return;
+    
+    const newText = document.getElementById('edit-textarea').value.trim();
+    
+    if (!newText) {
+      showNotification('Comment cannot be empty', true);
+      return;
+    }
+    
+    const comment = comments.find(c => c.id === editingCommentId);
+    if (comment) {
+      comment.text = newText;
+      comment.timestamp = Date.now();
+      saveComments();
+      renderComments();
+      showNotification('Comment updated successfully');
+    }
+    
+    document.getElementById('edit-modal').classList.remove('active');
+    editingCommentId = null;
+  });
+
+  document.getElementById('cancel-edit-btn').addEventListener('click', function() {
+    document.getElementById('edit-modal').classList.remove('active');
+    editingCommentId = null;
+  });
+
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      currentSort = this.getAttribute('data-sort');
+      renderComments();
+    });
+  });
+
+  document.getElementById('understanding-slider').addEventListener('input', function() {
+    const value = parseInt(this.value);
+    const levels = ['Confused', 'Basic', 'Good', 'Very Good', 'Excellent'];
+    document.getElementById('current-level').textContent = `Current: ${levels[value-1]} (${value}/5)`;
+  });
+
+  document.querySelectorAll('.rate-btn').forEach(button => {
+    button.addEventListener('click', function() {
+      document.querySelectorAll('.rate-btn').forEach(btn => btn.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  document.getElementById('emoji-toggle-btn').addEventListener('click', function() {
+    const emojiBox = document.getElementById('emoji-box');
+    const isVisible = emojiBox.classList.contains('show');
+    
+    if (isVisible) {
+      emojiBox.classList.remove('show');
+      this.textContent = 'Show Emojis';
+    } else {
+      emojiBox.classList.add('show');
+      this.textContent = 'Hide Emojis';
+    }
+  });
+
+  document.querySelectorAll('.emoji').forEach(emoji => {
+    emoji.addEventListener('click', function() {
+      const emojiText = this.textContent;
+      showNotification(`${emojiText} feedback sent to instructor`);
+    });
+  });
+
+  document.getElementById('confusion-btn').addEventListener('click', function() {
+    showNotification('Instructor notified that you are confused');
+  });
+
+  document.getElementById('send-btn').addEventListener('click', function() {
+    const questionInput = document.getElementById('question-input');
+    const question = questionInput.value.trim();
+    
+    if (question) {
+      const newComment = {
+        id: Date.now() + Math.random(),
+        text: question,
+        timestamp: Date.now(),
+        votes: 0,
+        userId: currentUserId,
+        userVote: null
+      };
+      
+      comments.push(newComment);
+      saveComments();
+      questionInput.value = '';
+      renderComments();
+      showNotification('Comment posted successfully');
+    }
+  });
+
+  document.getElementById('question-input').addEventListener('input', function() {
+    document.getElementById('send-btn').disabled = !this.value.trim();
+  });
+
+  document.getElementById('question-input').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter' && this.value.trim()) {
+      document.getElementById('send-btn').click();
+    }
+  });
+
+  document.getElementById('back-btn').addEventListener('click', function() {
+    window.location.href = 'student_session.html';
+  });
+
+  loadComments();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,797 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Portal - GMCI</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+    
+    body {
+      background-color: #f0f2f5;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    header {
+      background-color: #2c3e50;
+      color: white;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .header-left {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    
+    .header-right {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    select, .menu-btn {
+      padding: 5px 10px;
+      border-radius: 4px;
+      border: 1px solid #34495e;
+      background-color: white;
+    }
+    
+    .menu-btn {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .menu-btn:hover {
+      background-color: #2980b9;
+    }
+    
+    .main-container {
+      display: flex;
+      max-width: 1200px;
+      margin: 20px auto;
+      padding: 0 20px;
+      gap: 30px;
+    }
+    
+    .left-column {
+      flex: 1;
+    }
+    
+    .session-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .session-title {
+      color: #2c3e50;
+      font-size: 22px;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #ecf0f1;
+      padding-bottom: 10px;
+    }
+    
+    .session-details {
+      margin-bottom: 20px;
+    }
+    
+    .detail-row {
+      margin-bottom: 8px;
+      display: flex;
+    }
+    
+    .detail-label {
+      font-weight: bold;
+      width: 80px;
+      color: #7f8c8d;
+    }
+    
+    .join-button {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+    
+    .join-button:hover {
+      background-color: #219653;
+    }
+
+    .qr-button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 12px 25px;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      display: block;
+      width: 100%;
+      margin-top: 10px;
+      transition: background-color 0.2s;
+    }
+
+    .qr-button:hover {
+      background-color: #2980b9;
+    }
+    
+    .right-column {
+      flex: 1;
+    }
+    
+    .history-card, .calendar-card {
+      background-color: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .card-title {
+      color: #2c3e50;
+      font-size: 18px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 8px;
+    }
+    
+    .history-item {
+      padding: 10px;
+      border-left: 4px solid #3498db;
+      margin-bottom: 10px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .history-item:hover {
+      background-color: #e8f4fc;
+    }
+    
+    .history-item.completed {
+      border-left-color: #27ae60;
+    }
+    
+    .history-item.upcoming {
+      border-left-color: #e74c3c;
+    }
+    
+    .history-title {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .history-date {
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-top: 3px;
+    }
+    
+    .calendar-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .month-title {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .calendar-nav {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 18px;
+      color: #3498db;
+    }
+    
+    .weekdays, .calendar-days {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    
+    .weekday {
+      text-align: center;
+      font-weight: bold;
+      color: #7f8c8d;
+      padding: 5px;
+      font-size: 14px;
+    }
+    
+    .day {
+      text-align: center;
+      padding: 10px 5px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .day:hover {
+      background-color: #ecf0f1;
+    }
+    
+    .day.today {
+      background-color: #3498db;
+      color: white;
+    }
+    
+    .day.session-day {
+      background-color: #d5f4e6;
+      font-weight: bold;
+    }
+    
+    .day.empty {
+      background-color: transparent;
+      cursor: default;
+    }
+
+    .qr-modal, .scan-modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .qr-modal.active, .scan-modal.active {
+      display: flex;
+    }
+
+    .qr-content, .scan-content {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      max-width: 500px;
+      width: 90%;
+      text-align: center;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+
+    .qr-content h2, .scan-content h2 {
+      margin-bottom: 20px;
+      color: #2c3e50;
+    }
+
+    .qr-input {
+      width: 100%;
+      padding: 12px;
+      border: 2px solid #ddd;
+      border-radius: 5px;
+      font-size: 16px;
+      margin-bottom: 15px;
+      text-align: center;
+      letter-spacing: 2px;
+    }
+
+    .qr-input:focus {
+      outline: none;
+      border-color: #3498db;
+    }
+
+    .qr-buttons, .scan-buttons {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+    }
+
+    .qr-join-btn, .qr-cancel-btn, .scan-cancel-btn {
+      padding: 12px 30px;
+      border: none;
+      border-radius: 5px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .qr-join-btn {
+      background-color: #27ae60;
+      color: white;
+    }
+
+    .qr-join-btn:hover {
+      background-color: #219653;
+    }
+
+    .qr-cancel-btn, .scan-cancel-btn {
+      background-color: #95a5a6;
+      color: white;
+    }
+
+    .qr-cancel-btn:hover, .scan-cancel-btn:hover {
+      background-color: #7f8c8d;
+    }
+
+    .qr-error {
+      color: #e74c3c;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .scan-area {
+      width: 250px;
+      height: 250px;
+      background: #f0f2f5;
+      border-radius: 8px;
+      margin: 20px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #666;
+      border: 2px dashed #ddd;
+    }
+
+    .scan-area.scanning {
+      border-color: #3498db;
+      animation: scanPulse 2s infinite;
+    }
+
+    .scan-area.success {
+      border-color: #27ae60;
+      background-color: #e6f4ea;
+    }
+
+    @keyframes scanPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+
+    .notification {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #27ae60;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 5px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+      z-index: 2000;
+      display: none;
+    }
+
+    .notification.show {
+      display: block;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    .notification.error {
+      background-color: #e74c3c;
+    }
+
+    @keyframes slideIn {
+      from {
+        transform: translateX(400px);
+        opacity: 0;
+      }
+      to {
+        transform: translateX(0);
+        opacity: 1;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .main-container {
+        flex-direction: column;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="notification" id="notification"></div>
+
+  <header>
+    <div class="header-left">GMCI Student Portal</div>
+    <div class="header-right">
+      <select id="language-select">
+        <option>English</option>
+        <option>German</option>
+      </select>
+      <button class="menu-btn" id="menu-btn">Menu</button>
+    </div>
+  </header>
+
+  <div class="main-container">
+    <div class="left-column">
+      <div class="session-card">
+        <div class="session-title" id="session-title">GMCI - Session 3</div>
+        <div class="session-details" id="session-details">
+          <div class="detail-row">
+            <div class="detail-label">Date:</div>
+            <div id="session-date">January 6, 2026</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Time:</div>
+            <div id="session-time">8:00 AM - 10:00 AM</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Instructor:</div>
+            <div id="session-instructor">Prof. Dr. Michael Rohs</div>
+          </div>
+          <div class="detail-row">
+            <div class="detail-label">Location:</div>
+            <div id="session-location">Raum 023: Multimedia-Hörsaal</div>
+          </div>
+        </div>
+        <button class="join-button" id="join-button">Join Session</button>
+        <button class="qr-button" id="qr-scan-button">📱 Scan QR Code</button>
+        <button class="qr-button" id="qr-button" style="background-color: #9b59b6;">🔢 Enter Session Code</button>
+      </div>
+    </div>
+
+    <div class="right-column">
+      <div class="history-card">
+        <div class="card-title">Session History</div>
+        <div id="history-list"></div>
+      </div>
+
+      <div class="calendar-card">
+        <div class="card-title">Calendar</div>
+        <div class="calendar-header">
+          <button class="calendar-nav" id="prev-month">←</button>
+          <div class="month-title" id="month-title">January 2026</div>
+          <button class="calendar-nav" id="next-month">→</button>
+        </div>
+        
+        <div class="weekdays">
+          <div class="weekday">Sun</div>
+          <div class="weekday">Mon</div>
+          <div class="weekday">Tue</div>
+          <div class="weekday">Wed</div>
+          <div class="weekday">Thu</div>
+          <div class="weekday">Fri</div>
+          <div class="weekday">Sat</div>
+        </div>
+        
+        <div class="calendar-days" id="calendar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Code Entry Modal -->
+  <div class="qr-modal" id="qr-modal">
+    <div class="qr-content">
+      <h2>Join Session via Code</h2>
+      <p style="color: #7f8c8d; margin-bottom: 20px;">
+        Enter the session code displayed in the classroom
+      </p>
+      <input 
+        type="text" 
+        class="qr-input" 
+        id="qr-input" 
+        placeholder="Enter 6-digit code"
+        maxlength="6"
+      >
+      <div class="qr-error" id="qr-error"></div>
+      <div class="qr-buttons">
+        <button class="qr-cancel-btn" id="qr-cancel-btn">Cancel</button>
+        <button class="qr-join-btn" id="qr-join-btn">Join Session</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- QR Scan Modal -->
+  <div class="scan-modal" id="scan-modal">
+    <div class="scan-content">
+      <h2>Scan QR Code to Join</h2>
+      <p style="color: #7f8c8d; margin-bottom: 10px;">
+        Point your camera at the QR code displayed in class
+      </p>
+      
+      <div class="scan-area" id="scan-area">
+        <div style="text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 10px;">📷</div>
+          <div>Camera will activate here</div>
+        </div>
+      </div>
+      
+      <p style="color: #7f8c8d; font-size: 14px; margin-bottom: 20px;">
+        Position QR code within the frame
+      </p>
+      
+      <div class="scan-buttons">
+        <button class="scan-cancel-btn" id="scan-cancel-btn">Cancel</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const APP_DATA = {
+      sessions: [
+        {
+          id: 3,
+          title: "GMCI - Session 3",
+          date: "January 6, 2026",
+          time: "8:00 AM - 10:00 AM",
+          instructor: "Prof. Dr. Michael Rohs",
+          location: "Raum 023: Multimedia-Hörsaal",
+          status: "active",
+          qrCode: "GMCI03"
+        },
+        {
+          id: 2,
+          title: "GMCI - Session 2",
+          date: "December 16, 2025",
+          time: "8:00 AM - 10:00 AM",
+          status: "completed"
+        },
+        {
+          id: 1,
+          title: "GMCI - Session 1",
+          date: "December 9, 2025",
+          time: "8:00 AM - 10:00 AM",
+          status: "completed"
+        },
+        {
+          id: 4,
+          title: "GMCI - Session 4",
+          date: "January 13, 2026",
+          time: "8:00 AM - 10:00 AM",
+          status: "upcoming"
+        }
+      ],
+      sessionDates: [
+        {day: 6, month: 0, year: 2026, title: "GMCI Session 3"},
+        {day: 13, month: 0, year: 2026, title: "GMCI Session 4"},
+        {day: 20, month: 0, year: 2026, title: "GMCI Session 5"},
+        {day: 27, month: 0, year: 2026, title: "GMCI Session 6"}
+      ],
+      currentMonth: 0,
+      currentYear: 2026
+    };
+
+    function showNotification(message, isError = false) {
+      const notif = document.getElementById('notification');
+      notif.textContent = message;
+      notif.className = 'notification show';
+      if (isError) notif.classList.add('error');
+      
+      setTimeout(() => {
+        notif.classList.remove('show');
+      }, 3000);
+    }
+
+    function loadHistory() {
+      const historyList = document.getElementById('history-list');
+      historyList.innerHTML = '';
+      
+      APP_DATA.sessions.forEach(session => {
+        const item = document.createElement('div');
+        item.className = `history-item ${session.status}`;
+        item.innerHTML = `
+          <div class="history-title">${session.title}</div>
+          <div class="history-date">${session.date} | ${session.time} (${session.status.toUpperCase()})</div>
+        `;
+        
+        if (session.status === 'active') {
+          item.addEventListener('click', () => joinSession(session));
+        }
+        
+        historyList.appendChild(item);
+      });
+    }
+
+    function generateCalendar() {
+      const calendarEl = document.getElementById('calendar');
+      calendarEl.innerHTML = '';
+      
+      const monthNames = ["January", "February", "March", "April", "May", "June",
+                         "July", "August", "September", "October", "November", "December"];
+      
+      document.getElementById('month-title').textContent = 
+        `${monthNames[APP_DATA.currentMonth]} ${APP_DATA.currentYear}`;
+      
+      const firstDay = new Date(APP_DATA.currentYear, APP_DATA.currentMonth, 1);
+      const lastDay = new Date(APP_DATA.currentYear, APP_DATA.currentMonth + 1, 0);
+      const totalDays = lastDay.getDate();
+      const firstDayIndex = firstDay.getDay();
+      
+      for (let i = 0; i < firstDayIndex; i++) {
+        const emptyDay = document.createElement('div');
+        emptyDay.className = 'day empty';
+        calendarEl.appendChild(emptyDay);
+      }
+      
+      const today = new Date();
+      
+      for (let day = 1; day <= totalDays; day++) {
+        const dayEl = document.createElement('div');
+        dayEl.className = 'day';
+        dayEl.textContent = day;
+        
+        if (day === today.getDate() && 
+            APP_DATA.currentMonth === today.getMonth() && 
+            APP_DATA.currentYear === today.getFullYear()) {
+          dayEl.classList.add('today');
+        }
+        
+        const isSessionDay = APP_DATA.sessionDates.some(session => 
+          session.day === day && 
+          session.month === APP_DATA.currentMonth && 
+          session.year === APP_DATA.currentYear
+        );
+        
+        if (isSessionDay) {
+          dayEl.classList.add('session-day');
+          const sessionInfo = APP_DATA.sessionDates.find(s => 
+            s.day === day && s.month === APP_DATA.currentMonth && s.year === APP_DATA.currentYear
+          );
+          dayEl.title = sessionInfo.title;
+        }
+        
+        calendarEl.appendChild(dayEl);
+      }
+    }
+
+    function changeMonth(direction) {
+      APP_DATA.currentMonth += direction;
+      
+      if (APP_DATA.currentMonth < 0) {
+        APP_DATA.currentMonth = 11;
+        APP_DATA.currentYear--;
+      } else if (APP_DATA.currentMonth > 11) {
+        APP_DATA.currentMonth = 0;
+        APP_DATA.currentYear++;
+      }
+      
+      generateCalendar();
+    }
+
+    function joinSession(session) {
+      showNotification(`Joining ${session.title}...`);
+      setTimeout(() => {
+        localStorage.setItem('currentSession', JSON.stringify(session));
+        window.location.href = 'student_session.html';
+      }, 1000);
+    }
+
+    function openQRModal() {
+      document.getElementById('qr-modal').classList.add('active');
+      document.getElementById('qr-input').value = '';
+      document.getElementById('qr-error').textContent = '';
+      document.getElementById('qr-input').focus();
+    }
+
+    function closeQRModal() {
+      document.getElementById('qr-modal').classList.remove('active');
+    }
+
+    function openScanModal() {
+      const modal = document.getElementById('scan-modal');
+      const scanArea = document.getElementById('scan-area');
+      
+      modal.classList.add('active');
+      
+      setTimeout(() => {
+        scanArea.className = 'scan-area scanning';
+        scanArea.innerHTML = `
+          <div style="text-align: center;">
+            <div style="font-size: 48px; margin-bottom: 10px;">📷</div>
+            <div>Scanning...</div>
+          </div>
+        `;
+        
+        setTimeout(() => {
+          scanArea.className = 'scan-area success';
+          scanArea.innerHTML = `
+            <div style="text-align: center; color: #27ae60;">
+              <div style="font-size: 48px; margin-bottom: 10px;">✅</div>
+              <div>QR Code Detected!</div>
+            </div>
+          `;
+          
+          setTimeout(() => {
+            modal.classList.remove('active');
+            showNotification('QR Code verified! Joining session...');
+            setTimeout(() => {
+              const activeSession = APP_DATA.sessions.find(s => s.status === 'active');
+              joinSession(activeSession);
+            }, 1000);
+          }, 1500);
+        }, 2000);
+      }, 500);
+    }
+
+    function closeScanModal() {
+      document.getElementById('scan-modal').classList.remove('active');
+      document.getElementById('scan-area').className = 'scan-area';
+      document.getElementById('scan-area').innerHTML = `
+        <div style="text-align: center;">
+          <div style="font-size: 48px; margin-bottom: 10px;">📷</div>
+          <div>Camera will activate here</div>
+        </div>
+      `;
+    }
+
+    function validateQRCode(code) {
+      const activeSession = APP_DATA.sessions.find(s => s.status === 'active');
+      return activeSession && code.toUpperCase() === activeSession.qrCode;
+    }
+
+    document.getElementById('join-button').addEventListener('click', () => {
+      const activeSession = APP_DATA.sessions.find(s => s.status === 'active');
+      if (activeSession) {
+        joinSession(activeSession);
+      }
+    });
+
+    document.getElementById('qr-button').addEventListener('click', openQRModal);
+    document.getElementById('qr-scan-button').addEventListener('click', openScanModal);
+
+    document.getElementById('qr-cancel-btn').addEventListener('click', closeQRModal);
+    document.getElementById('scan-cancel-btn').addEventListener('click', closeScanModal);
+
+    document.getElementById('qr-join-btn').addEventListener('click', () => {
+      const code = document.getElementById('qr-input').value.trim();
+      const errorEl = document.getElementById('qr-error');
+      
+      if (!code) {
+        errorEl.textContent = 'Please enter a session code';
+        return;
+      }
+      
+      if (validateQRCode(code)) {
+        closeQRModal();
+        const activeSession = APP_DATA.sessions.find(s => s.status === 'active');
+        showNotification('Session code verified! Joining session...');
+        setTimeout(() => {
+          joinSession(activeSession);
+        }, 1000);
+      } else {
+        errorEl.textContent = 'Invalid session code. Please try again.';
+      }
+    });
+
+    document.getElementById('qr-input').addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') {
+        document.getElementById('qr-join-btn').click();
+      }
+    });
+
+    document.getElementById('qr-input').addEventListener('input', (e) => {
+      e.target.value = e.target.value.toUpperCase();
+    });
+
+    document.getElementById('prev-month').addEventListener('click', () => changeMonth(-1));
+    document.getElementById('next-month').addEventListener('click', () => changeMonth(1));
+
+    document.getElementById('language-select').addEventListener('change', function() {
+      showNotification(`Language changed to ${this.value}`);
+    });
+
+    document.getElementById('menu-btn').addEventListener('click', () => {
+      showNotification('Menu functionality available in full version');
+    });
+
+    loadHistory();
+    generateCalendar();
+  </script>
+</body>
+</html>
