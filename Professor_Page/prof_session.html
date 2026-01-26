@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Startseite_Professor</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f9fc;
+    }
+
+    main {
+      display: flex;
+      align-content: flex-start;
+      /*align-items: center;*/
+    }
+
+    .layout{
+      display: flex;
+      flex-direction: column;
+      padding: 30px;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;  
+    }
+
+    .header {
+      background-color: #2c3e50;
+      height: 70px;
+      color: white;
+      fontsize: 20px;
+      
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header select {
+      background-color: #2d4a7c;
+      color: white;
+      border:none;
+      padding: 8px 15px;
+      border-radius: 7px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    nav a{
+      margin-left: 30px;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    nav a:hover{
+      color: #10b981;
+    }
+
+    nav a.aktuell{
+      text-decoration: underline;
+      color: white ;
+      text-decoration-color: #D3D3D3;
+    }
+
+    .hamburger {
+      font-size: 40px;
+      cursor: pointer;
+      margin-right: 30px;
+      text-align: center;
+    }
+
+    .hamburger:hover {
+      color: #D3D3D3;
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 10px;
+      background-color: #f0f7ff;
+      align: center;
+      border: 1px solid #e1e8f0;
+      /*display: inline-block;*/
+      border-radius: 7px;
+      width: 100%;
+
+    }
+
+    table th {
+      
+      text-align: center;
+      font-weight: 600;
+      color: #64748b;
+      padding: 8px 0;
+      font-size: 0.9rem;
+    
+    }
+
+    table td {
+      text-align: center;
+      padding: 10px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 0.9rem;
+    }
+
+    table td:hover{
+      background-color: #e0f2fe;
+    }
+
+    table td.today {
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+    }
+
+
+    .question_poll_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      gap:10px;
+      display: inline-block;
+      align: center;
+      margin-top: 25px;
+    }
+
+    .question_poll_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+
+    @media (max-width: 1024px) {
+      .layout {
+        flex-direction: column;
+        padding: 20px;
+      }
+      
+      .left {
+        padding-top: 20px;
+      }
+      
+      .session_anzeige {
+        max-width: 100%;
+      }
+    }
+    
+    @media (max-width: 768px) {
+      .header {
+        padding: 12px 20px;
+      }
+      
+      .layout {
+        padding: 15px;
+      }
+      
+      .course_box, .session_anzeige, .kalender_box {
+        padding: 20px;
+      }
+      
+      table th {
+        gap: 4px;
+      }
+      
+      table td {
+        padding: 8px 0;
+        font-size: 0.85rem;
+      }
+    }
+
+    .links{
+      flex: 1;
+      display: inline-block;
+      justify-content: center;
+      /*padding-top:60px;*/
+      text-align: center;
+    }
+
+    .rechts {
+      flex:1;
+      display: flex;
+      gap: 25px;
+      flex-direction: column;
+      
+    }
+
+    .header_links{
+      display: flex;
+      justify-content: flex-start;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .frage_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      /*padding-top: 7px;
+      padding-bottom: 7px;*/
+      border-radius: 50px;
+       border: 1px solid #0da271;
+      font-size: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-left: 15px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+
+    .frage_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .overlay-container {
+      display: none; 
+      position: fixed; 
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); 
+      z-index: 1000; 
+      justify-content: center; 
+      align-items: center;
+}
+
+    .overlay_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-bottom: 25px;
+      padding-right: 25px;
+      border: 1px solid #e1e8f0;
+  }
+
+  .overlay_content a{
+      color: #2c3e50 ;
+      text-decoration: none;
+      padding: 10px;
+      font-size: 30px;
+      text-align: center;
+      font-weight: 600;
+      margin-right: 10px;
+  }
+
+  .overlay_content a:hover{
+    transform: scale(1.02);
+    background-color: #e0f2fe;
+    border-radius: 15px;
+  }
+
+  .profil{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .settings{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .angaben2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .overlay_content{
+    display: flex;
+    align-content: flex-start;
+    position: relative;
+    padding-right:25px;
+    
+  }
+
+  .close_btn{
+    background-color: transparent;
+    color:#A91101;
+    border:none;
+    font-size: 30px;
+    cursor: pointer;
+
+    position: absolute; /* Positioniert relativ zum nächsten positionierten Vorfahren (.overlay) */
+    top: 10px; 
+    right: 1px;        
+  }
+
+  .close_btn:hover{
+    transform: scale(1.02);
+    color:#880808;
+  }
+
+ 
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip-text {
+      position: absolute;
+      top: calc(100% + 8px); 
+      left: 50%;
+      transform: translateX(-50%) translateY(-5px);
+      margin-top: -2px;
+      background-color: #D3D3D3;
+      color: #2c3e50;
+      border:1px solid #a6a6a6;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 1000;
+
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tooltip:hover .tooltip-text {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    /* Comments */
+    .comments-column {
+      flex: 2;
+    }
+
+    /* Box styles */
+    .box {
+      background-color: white;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid #e1e8f0;
+    }
+    
+    .box-title {
+      color: #2c3e50;
+      font-size: 20px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ecf0f1;
+      padding-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    /* Comments box */
+    .comments-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+    
+    .sort-buttons {
+      display: flex;
+      gap: 5px;
+    }
+    
+    .sort-btn {
+      padding: 5px 10px;
+      border: 1px solid #ddd;
+      background-color: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    
+    .sort-btn.active {
+      background-color: #3498db;
+      color: white;
+      border-color: #3498db;
+    }
+    
+    /* Comments list */
+    .comments-list {
+      max-height: 500px;
+      overflow-y: auto;
+      padding-right: 10px;
+    }
+    
+    .comment {
+      padding: 15px;
+      border-left: 4px solid #3498db;
+      margin-bottom: 15px;
+      background-color: #f8f9fa;
+      border-radius: 4px;
+    }
+    
+    .comment-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .comment-author {
+      font-weight: bold;
+      color: #2c3e50;
+    }
+    
+    .comment-time {
+      color: #7f8c8d;
+      font-size: 14px;
+    }
+    
+    .comment-text {
+      margin-bottom: 10px;
+      line-height: 1.5;
+    }
+    
+    .comment-actions {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .vote-buttons {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    
+    .vote-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      color: #7f8c8d;
+    }
+    
+    .vote-count {
+      font-weight: bold;
+      margin: 0 10px;
+      min-width: 30px;
+      text-align: center;
+    }
+
+    /* Understanding box */
+    .understanding-slider {
+      width: 100%;
+      margin: 15px 0;
+    }
+
+    .understanding-labels {
+      display: flex;
+      justify-content: space-between;
+      color: #7f8c8d;
+      font-size: 14px;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+    
+    .current-level {
+      text-align: center;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #2c3e50;
+    }
+
+    /*Speech rate buttons*/
+    .speech_rate_btn{
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .speech_btn{
+      background-color: #f8f9fa;
+      color:#2c3e50;
+      border:none;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      padding-left: 10px;
+      padding-right: 10px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      border: 1px solid #e1e8f0;
+      margin-top: 15px;/
+    }
+
+    .speech_btn:hover{
+      transform: scale(1.02);
+    }
+
+
+    .speech_btn.right.active{
+      background-color: #d1fae5;
+      color: #065f46;
+      border-color: #065f46;
+    }
+
+    .speech_btn.slow.active{
+      background-color: #ff9999;
+      color: #880808;
+      border-color: #880808;
+    }
+
+    .speech_btn.fast.active{
+      background-color: #ff9999;
+      color: #880808;
+      border-color: #880808;
+    }
+
+    .confusion_level_box{
+      background-color: #ff9999;
+      border-radius: 20px;
+      padding-left: 15px;
+      padding-right: 15px;
+      border: 1px solid #880808;
+
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+
+   .confusion_level_box p{
+      color: #880808;
+      font-size: 18px;
+    }
+
+    .confusion_level_box.visible{
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .hidden {
+      pointer-events: none;
+    }
+
+
+    .outer{
+      display: flex;
+      /*align-items: center;*/
+      gap: 30px;
+    }
+
+    .oben{
+      display: inline-flex;
+      margin: auto;
+    }
+
+    .slider_text.confused{
+      color:#880808;
+    }
+
+    .slider_text.basic {
+      color: #A91101;
+    }
+
+    .slider_text.good{
+      color: #3498db;
+    }
+
+    .slider_text.very_good{
+      color: #10b981;
+    }
+
+    .slider_text.excellent{
+      color: #0da271;
+    }
+
+
+    .quiz1{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .overlay-info {
+    position: absolute; 
+    top: calc(100% + 8px); 
+    left: 50%; 
+    transform: translateX(-50%) translateY(-5px);
+    margin-top: -2px;
+    /*margin-left: 10px; */
+    padding: 8px 12px;
+    background-color: white;
+    color: white;
+    border-radius: 15px;
+    white-space: nowrap; /
+    display: none; 
+    opacity: 0; 
+    transition: opacity 0.3s ease; 
+    z-index: 10; 
+    border: 1px solid #e1e8f0;
+}
+
+  .question_poll_btn:hover .overlay-info {
+    display: block; 
+    opacity: 1; 
+  }
+
+  .angaben3 h3 {
+    color: #1a365d;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 2.5px solid #e1e8f0;
+    font-size:20px;
+  }
+
+  .angaben3 a{
+  color: #2c3e50 ;
+  text-decoration: none;
+  padding: 10px;
+  font-size: 20px;
+  text-align: center;
+  font-weight: 600;
+  text-align: left ;
+}
+
+.angaben3 a:hover{
+  transform: scale(1.02);
+  background-color: #e0f2fe;
+  border-radius: 15px;
+}
+
+.angaben3{
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+ /* margin-top: 10px;*/
+}
+
+  </style>
+</head>
+
+<body>
+  <div class="header">
+    <div class="header_links">
+    <select style="height: 27px;">
+      <option>EN</option>
+      <option>DE</option>
+    </select>
+
+    <button class="frage_btn tooltip" onclick="show_message()">?
+    <span class="tooltip-text">Any Questions? click here</span>
+  </button>
+  </div>
+
+    <nav>
+      <a href="#" class="tooltip">GMCI | Session 03
+        <span class="tooltip-text">You are currently in a Session</span></a>
+    </nav>
+
+    <div id="openOverlayBtn" class="hamburger">☰</div>
+    <div id="overlay" class="overlay-container">
+      <div class="overlay_box">
+        <div class="overlay_content">
+          <div class="angaben2">
+          <a href="#" class="profil">Profil</a>
+          <a href="#" class="settings">Settings</a>
+          <a onclick="end_session()" class="logout">End Session</a>
+          </div>
+          <button class="close_btn" id="closeOverlayBtn">×</button>
+      </div>
+    </div>
+    </div>
+
+  </div>
+
+
+<main class="layout">
+
+<div class="oben">
+  <div class="confusion_level_box hidden" id="confusion_level_pop_up">
+    <p class="confusion_level_text">⚠️ Confusion Level: High ⚠️</p>
+  </div>
+</div>
+
+<div class="outer">
+  <div class="links">
+
+    <!-- Understanding level -->
+    <div class="box">
+      <div class="box-title">Average Understanding Level</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How well does the class understand the current topic
+      </p>
+      
+      <input type="range" min="1" max="5" value="3" class="understanding-slider" id="understanding-slider" disabled>
+      
+      <div class="understanding-labels">
+        <span class="confused">Confused</span>
+        <span class="basic">Basic</span>
+        <span class="good">Good</span>
+        <span class="very_good">Very Good</span>
+        <span class="excellent">Excellent</span>
+      </div>
+      
+      <div class="current-level" id="current-level">Current: <span class="slider_text good" id="slider_text">Good (3/5)</span></div>
+    </div>
+
+
+    <div class="box">
+      <div class="box-title">Speech Rate</div>
+      <p style="color: #7f8c8d; margin-bottom: 10px; font-size: 14px;">
+        How the class perceives the pace of your speech
+      </p>
+
+      <div class="speech_rate_btn">
+        <button class="speech_btn slow" id="slow" disabled>Too Slow</button>
+        <button class="speech_btn right active" id="right">Just Right</button>
+        <button class="speech_btn fast" id="fast" disabled>Too Fast</button>
+      </div>
+    </div>
+  
+  <div>
+    <button class="question_poll_btn tooltip"  onclick="window.location.href ='#'"><h2>Start a Quiz</h2>
+    
+    <div class="overlay-info">
+      <div class="angaben3">
+        <h3>Question Polls</h3>
+        <a class="quiz1" onclick="start_quiz()">· Input Quiz</a>
+        <a class="quiz2" onclick="start_quiz()">· Output Quiz</a>
+      </div>
+    </div>
+
+    </button>
+  </div>
+  </div>
+
+
+<div class="rechts">
+    <!-- Comments -->
+<div class="comments-column">
+    <div class="box">
+      <div class="comments-header">
+        <div class="box-title">Student Questions & Comments</div>
+        <div class="sort-buttons">
+          <button class="sort-btn active" data-sort="recent">Newest</button>
+          <button class="sort-btn" data-sort="votes">Top Votes</button>
+        </div>
+      </div>
+      
+      <div class="comments-list" id="comments-list">
+        <!-- Comments loaded here -->
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</main>
+<script>
+
+  function start_quiz() {
+    alert("The selected Quiz starts now\n\nIn the correct version, the students would be shown the selected quiz to complete")
+  }
+
+  function end_session() {
+    if (!confirm("Do you really want to end this Session?")) {
+        return;
+      } else {
+        alert("The session ends in 10,9,8...");
+        window.location.href = "Startseite_Prof.html";
+
+      }
+  }
+
+  const popup = document.getElementById("confusion_level_pop_up");
+
+  // nach 10 Sekunden anzeigen
+  setTimeout(() => {
+    popup.classList.add("visible");
+  }, 10000);
+
+  // nach 14 Sekunden wieder ausblenden
+  setTimeout(() => {
+    popup.classList.remove("visible");
+  }, 15000);
+
+  const slow = document.getElementById("slow");
+  const right = document.getElementById("right");
+  const fast = document.getElementById("fast");
+
+  /*window.onload = function() {
+    right.classList.add('aktiv')
+  };*/
+
+  setTimeout(() => {
+    fast.disabled = false;
+    right.disabled = true;
+    right.classList.remove('active');
+    fast.classList.add('active');
+  }, 12000);
+
+  function show_message() {
+      alert("In the correct version, usage tips would be displayed here"); 
+    }
+
+
+const sampleComments = [
+    {
+      id: 1,
+      author: "Anonymous Student",
+      text: "Can you explain the HCI design principles again?",
+      time: "10 min ago",
+      votes: 5,
+      userVoted: null // null = not voted, "up" = upvoted, "down" = downvoted
+    },
+    {
+      id: 2,
+      author: "Anonymous Student",
+      text: "The example with the mobile app was really helpful!",
+      time: "15 min ago",
+      votes: 8,
+      userVoted: null
+    },
+    {
+      id: 3,
+      author: "Anonymous Student",
+      text: "Too fast here, can we slow down?",
+      time: "20 min ago",
+      votes: 3,
+      userVoted: null
+    },
+    {
+      id: 4,
+      author: "Anonymous Student",
+      text: "Will this be on the exam?",
+      time: "25 min ago",
+      votes: 2,
+      userVoted: null
+    },
+    {
+      id: 5,
+      author: "Anonymous Student",
+      text: "Can we have more practice exercises?",
+      time: "30 min ago",
+      votes: 4,
+      userVoted: null
+    }
+  ];
+  
+  let comments = [...sampleComments];
+  
+  // Load comments
+  function loadComments() {
+    const commentsList = document.getElementById('comments-list');
+    commentsList.innerHTML = '';
+    
+    comments.forEach(comment => {
+      const commentEl = document.createElement('div');
+      commentEl.className = 'comment';
+      commentEl.innerHTML = `
+        <div class="comment-header">
+          <div class="comment-author">${comment.author}</div>
+          <div class="comment-time">${comment.time}</div>
+        </div>
+        <div class="comment-text">${comment.text}</div>
+        <div class="comment-actions">
+          <div class="vote-buttons">
+            <button class="vote-btn upvote-btn" data-id="${comment.id}">↑</button>
+            <div class="vote-count">${comment.votes}</div>
+            <button class="vote-btn downvote-btn" data-id="${comment.id}">↓</button>
+          </div>
+        </div>
+      `;
+      commentsList.appendChild(commentEl);
+    });
+    
+    // Add event listeners to vote buttons
+    document.querySelectorAll('.upvote-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseInt(this.getAttribute('data-id'));
+        voteComment(commentId, 'up');
+      });
+    });
+    
+    document.querySelectorAll('.downvote-btn').forEach(btn => {
+      btn.addEventListener('click', function() {
+        const commentId = parseInt(this.getAttribute('data-id'));
+        voteComment(commentId, 'down');
+      });
+    });
+  }
+
+  // Vote on a comment
+/*  function voteComment(commentId, voteType) {
+    const comment = comments.find(c => c.id === commentId);
+    
+    if (!comment) return;
+    
+    // Simple voting logic for prototype
+    if (comment.userVoted === voteType) {
+      // Already voted this way - remove vote
+      comment.userVoted = null;
+      comment.votes += (voteType === 'up' ? -1 : 1);
+    } else if (comment.userVoted === null) {
+      // New vote
+      comment.userVoted = voteType;
+      comment.votes += (voteType === 'up' ? 1 : -1);
+    } else {
+      // Changing vote
+      comment.userVoted = voteType;
+      comment.votes += (voteType === 'up' ? 2 : -2);
+    }
+    
+    console.log(`Prototype: ${voteType === 'up' ? 'Upvoted' : 'Downvoted'} comment ${commentId}`);
+    loadComments(); // Refresh display
+  }*/
+
+  
+  // Sort buttons
+  document.querySelectorAll('.sort-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+      // Remove active class from all buttons
+      document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      const sortType = this.getAttribute('data-sort');
+      
+      if (sortType === 'votes') {
+        // Sort by votes (descending)
+        comments.sort((a, b) => b.votes - a.votes);
+      } else {
+        // Sort by recent (by ID for prototype)
+        comments.sort((a, b) => a.id - b.id);
+      }
+      
+      console.log(`Prototype: Sorted comments by ${sortType}`);
+      loadComments();
+    });
+  });
+
+  // Initialize
+  loadComments();
+
+
+    // Speech rate buttons
+  const rateButtons = document.querySelectorAll('.speech_btn');
+  
+  rateButtons.forEach(button => {
+    button.addEventListener('click', function() {
+      // Remove active class from all buttons
+      rateButtons.forEach(btn => btn.classList.remove('active'));
+      
+      // Add active class to clicked button
+      this.classList.add('active');
+      
+      const rate = this.getAttribute('data-rate');
+      console.log(`Prototype: Speech rate set to "${rate}"`);
+    });
+  });
+
+
+  //Understanding Slider 
+  const slider = document.getElementById("understanding-slider");
+  const slider_text = document.getElementById("slider_text");
+
+  setTimeout(() => {
+    slider.value = 1;
+    slider_text.innerText = "Confused (1/5)";
+    slider_text.classList.remove('good');
+    slider_text.classList.add('confused');
+  }, 8000);
+  
+
+
+   document.getElementById('openOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'flex';
+    document.getElementById('closeOverlayBtn').focus();
+});
+
+document.getElementById('closeOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+});
+
+
+document.getElementById('overlay').addEventListener('click', function(event) {
+    if (event.target === this) { 
+        document.getElementById('overlay').style.display = 'none';
+    }
+});
+</script>
+
+
+</body>
+</html>

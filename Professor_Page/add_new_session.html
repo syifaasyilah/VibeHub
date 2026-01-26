@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Creating a new Course</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f9fc;
+    }
+
+    main{
+      display: flex;
+      align: center;
+    }
+
+    .layout{
+      display: flex;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-bottom: 30px;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+      justify-content: space-around;
+    }
+
+    .header {
+      background-color: #2c3e50;
+      height: 70px;
+      color: white;
+      fontsize: 20px;
+      
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header select{
+      background-color: #2d4a7c;
+      color: white;
+      border:none;
+      padding: 8px 15px;
+      border-radius: 7px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    nav a{
+      margin-left: 30px;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    nav a:hover{
+      color: #D3D3D3;
+    }
+
+    nav a.aktuell{
+      text-decoration: underline;
+      color: white ;
+      text-decoration-color: #0da271;
+    }
+
+    .aktuell:hover{
+      color: #10b981;
+    }
+
+    .hamburger {
+      font-size: 40px;
+      cursor: pointer;
+      margin-right: 30px;
+      text-align: center;
+    }
+
+    .hamburger:hover {
+      color: #D3D3D3;
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 10px;
+      background-color: white;
+      align: center;
+      /*display: inline-block;*/
+      border-radius: 7px;
+      border: 1px solid #e1e8f0;
+
+    }
+
+    table th {
+     text-align: center;
+      font-weight: 600;
+      color: #64748b;
+      padding: 8px 0;
+      font-size: 1.1rem;
+      width: 30px;
+    }
+
+    table td {
+      text-align: center;
+      font-weight: 600;
+      color: #64748b;
+      padding: 8px 0;
+      font-size: 1.1rem;
+      width: 30px;
+      
+    }
+
+    table td.today {
+      color: white;
+      font-weight: bold;
+    }
+
+    .container{
+      display: inline-block;
+      background-color: #f0f8ff;
+      border-radius: 7px;
+      margin-left: 150px;
+      margin-right:100px;
+      margin-top: 70px;
+    }
+
+    /*
+    .interaktion th{
+      text-align: left;
+    }*/
+
+    .angaben{
+      display: flex;
+      align-items: center;
+    }
+
+    .new_questions{
+      display: inline-block;
+      background-color: white;
+      color: #2c3e50;
+      border-radius: 7px;
+      cursor: pointer;
+      align: center;
+      border: none;
+      font-size: 15px;
+      font-weight: bold;
+      padding-left: 20px;
+      padding-right: 20px;
+      margin-left: 20px;
+    }
+
+    .new_questions:hover{
+      transform: scale(1.03);
+    }
+
+    .zurück_btn{
+      display: inline-block;
+      background-color: #64748b;
+      color: white;
+      border-radius: 15px;
+      cursor: pointer;
+      align: center;
+      border:none;
+      padding-left: 20px;
+      padding-right: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      gap:10px;
+      margin-top: 25px;
+      margin-right: 20px;
+    }
+
+    .zurück_btn:hover{
+      transform: scale(1.03);
+      background-color: #2c3e50;
+    }
+
+    .save_btn{
+      background-color: #10b981;
+      color: white;
+      border:none;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      gap:10px;
+      display: inline-block;
+      align: center;
+      margin-top: 25px;
+      margin-left: 20px;
+    }
+
+    .save_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .zeit_angabe{
+      align:center;
+      display: inline-block;
+      background-color: #D3D3D3;
+      border-radius: 7px;
+    }
+
+    .saved{
+      color:white;
+      font-size: 26.5px;
+    }
+
+    table th{
+      text-align: left;
+    }
+
+    .geclickt{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    .big_container{
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-left: 25px;
+      margin-right: 25px;
+    }
+
+
+
+    .session_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left:35px;
+      padding-right: 35px;
+      padding-bottom: 35px;
+      width: 100%;
+      max-width: 500px;
+      text-align: center;
+      border: 1px solid #e1e8f0;
+      transition: transform 0.3s ease;
+    }
+
+    .session_box h3{
+      color: #2c3e50;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #e1e8f0;
+      padding-bottom: 10px;
+    }
+
+    .saved_angaben_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      border: 1px solid #e1e8f0;
+      margin-left: 25px;
+      margin-right: 25px;
+    }
+
+    .saved_angaben_box h4{
+      color: #1a365d;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e1e8f0;
+      font-size:1.8rem;
+    }
+
+    .saved_angaben{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .saved_angaben_item{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+    }
+
+    .saved_angaben_item:hover{
+      background-color: #f0f7ff;
+    }
+
+    .angaben{
+      display: flex;
+      gap: 15px;
+      margin-top: 35px;
+    }
+
+    .input_angaben{
+      display: flex;
+      gap: 15px;
+    }
+
+    .category{
+      font-weight: 600;
+      color: #1a365d;
+      font-size: 20px;
+    }
+
+    .user_input{
+      color: #64748b;
+      font-size: 0.9rem;
+      margin-top: 3px;
+      border-bottom: 2px solid #e1e8f0;
+    }
+
+    .time_box{
+      background-color: #f8fafc;
+      border-radius: 20px;
+      padding-left: 20px;
+      padding-right: 20px;
+      padding-bottom:20px;
+      border: 1px solid #e1e8f0;
+      align-items: center;
+    }
+
+    .time_box h4{
+      color: #1a365d;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e1e8f0;
+      font-size:25px;
+    }
+
+    input[type="time"] {
+      flex: 1;
+      padding: 16px 16px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    input[type="time"]:hover {
+      background-color: #f0f7ff;
+    }
+
+    input[type="time"]:focus{
+      border-color: #3b82f6;
+    }
+
+    .interaktion_box{
+      background-color: #f8fafc;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .interaktion_box h3{
+      color: #1a365d;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e1e8f0;
+      font-size:25px;
+    }
+
+    .interaktion{
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .interaktion_item{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-radius: 10px;
+      background-color: white;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+    }
+
+    .interaktion_item:hover{
+      background-color: #f0f7ff;
+    }
+
+    label{
+      font-weight: 600;
+      color: #1a365d;
+      /*text-align: left;*/
+    }
+
+    .kreuz{
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .confusion_level_box{
+      background-color: #f8fafc;
+      border-radius: 20px;
+      padding: 25px;
+      border: 1px solid #e1e8f0;
+      margin-top: 20px;
+    }
+
+    .confusion_level_angaben{
+      display: flex;
+      /*flex-direction: column;*/
+      align-items: center;
+      /*justify-content: space-between;*/
+      justify-content: flex-start;
+    }
+
+    .number{
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-left: 10px;
+      margin-right: 10px;
+    }
+
+    .number:hover{
+      background-color: #f0f7ff;
+    }
+
+    .number:focus{
+      border-color: #3b82f6;
+    }
+
+    .question_poll_box{
+      background-color: #f8fafc;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      padding-top: 15px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .new_questions_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      /*padding-left: 25px;
+      padding-right: 25px;*/
+      padding: 25px;
+      border-radius: 20px;
+      font-size: 20px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      gap:10px;
+      display: inline-flex;
+      /*align: center;*/
+      align-items: center;
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    .new_questions_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .question_poll_liste{
+      background-color: white;
+      border-radius: 20px;
+      padding-left:10px;
+      padding-right: 10px;
+      /*width: 100%;*/
+      text-align: center;
+      border: 1px solid #e1e8f0;
+      transition: transform 0.3s ease;
+    }
+
+    .initial{
+      font-weight: 600;
+      color: #64748b;
+      font-size: 15px;
+      margin-bottom: 15px;
+    }
+
+    .questions {
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    /*.confusion_level_angaben_text_oben{
+      display: block;
+    }*/
+
+    .confusion_level_angaben_inner{
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+
+    .header_links{
+      display: flex;
+      justify-content: flex-start;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .frage_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      /*padding-top: 7px;
+      padding-bottom: 7px;*/
+      border-radius: 50px;
+       border: 1px solid #0da271;
+      font-size: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-left: 15px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+
+    .frage_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .question_poll_liste h4{
+      color: #1a365d;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      font-size: 20px;
+      border-bottom: 2px solid #e1e8f0;
+    }
+
+    .liste{
+      display: flex;
+
+    }
+
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip-text {
+      position: absolute;
+      top: calc(100% + 8px); 
+      left: 50%;
+      transform: translateX(-50%) translateY(-5px);
+      margin-top: -2px;
+      background-color: #D3D3D3;
+      color: #2c3e50;
+      border:1px solid #a6a6a6;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 1000;
+
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tooltip:hover .tooltip-text {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .confusion_percentage {
+      padding: 8px 15px;
+      border-radius: 7px;
+      /*font-weight: 500;*/
+      cursor: pointer;
+      font-size: 15px;
+      border: 2px solid #2c3e50;
+      background-color: white;
+      color:#2c3e50;
+      position: relative;
+    }
+
+
+    #mo.aktiv{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    #di.aktiv{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    #mi.aktiv{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    #do.aktiv{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    #fr.aktiv{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+
+    /*semester*/
+    #sommer.aktiv{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    #winter.aktiv{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    .uhrzeit input {
+      color: #2c3e50;
+    }
+
+    .mitte_header{
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #e1e8f0;
+      margin-left: 35px;
+      margin-right: 35px;
+      align-items: center;
+    }
+
+    .mitte{
+      /*lex: 1;
+      display: inline-flex;*/
+      justify-content: space-between;
+      text-align: center;
+      padding-top:20px;
+    }
+
+    .mitte h3{
+      color: #2c3e50;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      /*border-bottom: 2px solid #e1e8f0;*/
+      padding-bottom: 10px;
+      /*margin-left: 30px;*/
+    }
+
+    .außen{
+      display: flex;
+      gap: 120px;
+      margin-top: 20px;
+    }
+
+    .listen_einträge {
+      margin-left: 10px;
+      text-decoration: underline;
+      text-decoration-color: #3498db;
+      cursor: pointer;
+    }
+
+    .overlay-container {
+      display: none; 
+      position: fixed; 
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); 
+      z-index: 1000; 
+      justify-content: center; 
+      align-items: center;
+}
+
+    .overlay_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-bottom: 25px;
+      padding-right: 25px;
+      border: 1px solid #e1e8f0;
+  }
+
+  .overlay_content a{
+      color: #2c3e50 ;
+      text-decoration: none;
+      padding: 10px;
+      font-size: 30px;
+      text-align: center;
+      font-weight: 600;
+      margin-right: 10px;
+  }
+
+  .overlay_content a:hover{
+    transform: scale(1.02);
+    background-color: #e0f2fe;
+    border-radius: 15px;
+  }
+
+  .profil{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .settings{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .angaben2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .overlay_content{
+    display: flex;
+    align-content: flex-start;
+    position: relative;
+    padding-right:25px;
+    
+  }
+
+  .close_btn{
+    background-color: transparent;
+    color:#A91101;
+    border:none;
+    font-size: 30px;
+    cursor: pointer;
+
+    position: absolute; /* Positioniert relativ zum nächsten positionierten Vorfahren (.overlay) */
+    top: 10px; 
+    right: 1px;        
+  }
+
+  .close_btn:hover{
+    transform: scale(1.02);
+    color:#880808;
+  }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header_links">
+    <select style="height: 27px;">
+      <option>EN</option>
+      <option>DE</option>
+    </select>
+
+    <button class="frage_btn tooltip" onclick="show_message2()">?
+      <span class="tooltip-text">Any Questions? click here</span>
+    </button>
+  </div>
+
+    <nav>
+      <a href="Startseite_Prof.html" class="tooltip">Start
+        <span class="tooltip-text">Click here to return to the Startscreen</span></a>
+
+      <a onclick="course_overview()" class="tooltip">Courses
+        <span class="tooltip-text">Click here to view your Courses</span>
+      </a>
+
+      <a onclick="session_overview()" class="aktuell tooltip">Sessions
+        <span class="tooltip-text">Click here to view your Sessions</span></a>
+    </nav>
+    <div id="openOverlayBtn" class="hamburger">☰</div>
+    <div id="overlay" class="overlay-container">
+      <div class="overlay_box">
+        <div class="overlay_content">
+          <div class="angaben2">
+          <a href="#" class="profil">Profil</a>
+          <a href="#" class="settings">Settings</a>
+          <a href="Prof_log_in.html" class="logout">Log out</a>
+          </div>
+          <button class="close_btn" id="closeOverlayBtn">×</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+<main class="layout">
+  <div class="mitte">
+  <div class="mitte_header">
+      <h3 align="left" style= "color:#2c3e50;">Add a new Session</h3>
+
+      <div>
+      <button class="zurück_btn tooltip" onclick="zurück()"><h2>←</h2>
+        <span class="tooltip-text" id="tooltip-text-z">Return to ???</span></button>
+    </div>
+    </div>
+  <div class="außen">
+  <div class="links">
+  <div class="big_container">
+  <div class="session_box">
+    
+    <div class="angaben">
+    <div class="interaktion_box">
+      <h3 align="center" style=" color:#2c3e50;">Allow</h3>
+      <div class="interaktion">
+
+        <div class="interaktion_item">
+          <div>
+            <input type="checkbox" class="kreuz" value="gewaehlt">
+              <label for="ankreuzen">Emojis</label>
+          </div>
+        </div>
+
+        <div class="interaktion_item" >
+          <div>
+            <input type="checkbox" class="kreuz" value="gewaehlt" >
+              <label for="ankreuzen">Text-Comments</label>
+          </div>
+        </div>
+    </div>
+  </div>
+
+    <div class="question_poll_box">
+    <div class="questions">
+      <div> 
+        <button class="new_questions_btn" onclick="window.location.href ='add_new_question_poll.html'">Add a Quiz</button>
+      </div>
+
+      <div class="question_poll_liste">
+        <h4 align="center" style= "color:#2c3e50;">Question-Poll list</h4>
+        <div class="liste">
+          <div class="initial" id="question_poll_list">Currently no Quiz' created</div>
+        </div>
+      </div>
+    </div>
+    </div>
+    </div>
+
+    <div class="confusion_level_box tooltip">
+      <div class="confusion_level_angaben">
+        <label class="confusion_level_angaben_text_oben" style="font-size: 20px;">Confusion-Level Pop-Up from:  </label>
+        <select class="confusion_percentage" id="number" name="number">
+          <option value="25%">25%</option>
+          <option value="50%">50%</option>
+          <option value="75%">75%</option>
+        </select>
+        <label class="confusion_level_angaben_text" style=" font-size: 20px;"> students.</label>
+      </div>
+      <span class="tooltip-text">You will receive a warning once the selected quantity has been reached</span>
+    </div> 
+
+  </div>
+  <div>
+
+      <button class="save_btn" onclick="save()"><h2>Save</h2></button>
+
+    </div>
+  </div>
+</div>
+
+<div class="rechts">
+  <div class="saved_angaben_box">
+    <h4 align="center" style= "color:#2c3e50;">Saved Input</h4>
+    <div class="saved_angaben">
+
+      <div class="saved_angaben_item">
+        <div class="input_angaben">
+          <div class="category">Name:  </div>
+          <div id="user_input" class="user_input">HCI</div>
+        </div>
+      </div>
+
+      <div class="saved_angaben_item">
+        <div class="input_angaben">
+          <div class="category">Start:  </div>
+          <div id="user_input_date" class="user_input">07.04.2016</div>
+        </div>
+      </div>
+
+      <div class="saved_angaben_item">
+        <div class="input_angaben">
+          <div class="category">Location:  </div>
+          <div id="input_location" class="user_input">Multimedia Hörsaal</div>
+        </div>
+      </div>
+
+
+      <div class="time_box">
+      <h4 align="center">Time</h4>
+      <div class="zeit_angabe">
+      <table>
+        <thead>
+          <tr>
+            <th id="mo">MO</th>
+            <th id="di">TU</th>
+            <th id="mi">WE</th>
+            <th id="do">TH</th>
+            <th id="fr">FR</th>
+          </tr>
+        </thead>
+
+        <tbody>
+          <tr></tr>
+          <tr>
+            <td></td>
+            <td></td>
+            <td>
+              <form class="uhrzeit">
+                <label for="uhrzeit"></label>
+                <input type="time" id="time" value="08:30" required disabled />
+              </form>
+            </td>
+            <td></td>
+            <td></td>
+          </tr>
+          <tr></tr>
+          <tr>
+            <td></td>
+            <td id="winter" class="semester">Wi.S</td>
+            <td></td>
+            <td class="semester" id="sommer">Su.S</td>
+            <td></td>
+          </tr>
+          <tr></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+</div>
+
+</div>
+
+</main>
+
+  <script>
+    function session_overview() {
+    localStorage.setItem("herkunft_session", "session_creation");
+    window.location.href="session_list.html";
+  }
+
+    function course_overview() {
+      localStorage.setItem("herkunft_course", "session_creation");
+      window.location.href="course_list.html";
+    }
+
+    //question poll hinzufügen 
+    const quiz_made = sessionStorage.getItem("quiz_made");
+    const quiz_name = localStorage.getItem("quiz_name");
+
+    const quiz_liste = document.getElementById("question_poll_list");
+
+    if(quiz_made === "si") {
+      quiz_liste.innerHTML = `<li class="listen_einträge">${quiz_name}</li>
+
+      `;
+    } else {
+      quiz_liste.innerText = "Currently no Quiz' created";
+    }
+
+    //saved angaben anpassen
+     const name = localStorage.getItem("course_name");
+    if (name) {
+      document.getElementById("user_input").textContent = name;
+    } else {
+      document.getElementById("user_input").textContent = "HCI";
+    }
+
+    const first_date = localStorage.getItem("first_date");
+    if(first_date) {
+      document.getElementById("user_input_date").textContent =
+      first_date;
+    } else {
+      document.getElementById("user_input_date").textContent = "07.04.2026";
+    }
+
+    const input_location = localStorage.getItem("input_location");
+    if(input_location) {
+      document.getElementById("input_location").innerText = input_location;
+    } else {
+      document.getElementById("input_location").innerText = "Multimedia Hörsaal";
+    }
+
+    const start_time = localStorage.getItem("start_time");
+    document.getElementById("time").value = start_time;
+
+    /*const herkunft = localStorage.getItem("herkunft");*/
+
+    const herkunft = localStorage.getItem("herkunft");
+
+    window.addEventListener('load', () => {
+    const tooltip_z = document.getElementById("tooltip-text-z");
+
+      if(herkunft === "startseite_prof") {
+        tooltip_z.innerText = "Return to the Startscreen";
+      } else {
+        if( herkunft === "course_making") {
+          tooltip_z.innerText = "Return to Course Creation";
+        } else {
+          if(herkunft === "prog_einzeln") {
+            tooltip_z.innerText = "Return to Prog1 Session list";
+          } else {
+            if (herkunft === "gmci_einzeln") {
+              tooltip_z.innerText = "Return to GMCI Session list";
+            } else {
+              if(herkunft === "session_list") {
+                tooltip_z.innerText = "Return to Session list";
+              } else {
+                if(herkunft === "course_list") {
+                  tooltip_z.innerText = "Return to the Course list";
+                }
+              }
+            }
+          }
+        }
+      }
+  });
+ 
+
+  window.addEventListener('load', () => {
+    const day = localStorage.getItem("wochentag");
+  if(day === "MO") {
+    document.getElementById('mo').classList.add('aktiv');
+  } else {
+    if(day === "TU") {
+      document.getElementById('di').classList.add('aktiv');
+    } else {
+      if(day === "WE") {
+        document.getElementById('mi').classList.add('aktiv');
+      } else {
+        if(day ===  "TH") {
+          document.getElementById('do').classList.add('aktiv');
+        } else {
+          if (day === "FR"){
+            document.getElementById('fr').classList.add('aktiv');
+          } 
+        }
+      }
+    }
+  }
+  });
+
+
+
+   window.onload = function() { 
+    const semester = localStorage.getItem("semester");
+  if(semester === "winter") {
+    document.getElementById('winter').classList.add('aktiv');
+  } else {
+    if( semester === "sommer") {
+      document.getElementById('sommer').classList.add('aktiv');
+    }
+  }
+  };
+
+
+    const herkunft_s = localStorage.getItem("herkunft_s");
+
+    function zurück() {
+    // Die URL der vorherigen Seite abrufen
+    /*const herkunft = localStorage.getItem("herkunft")*/
+
+      if(herkunft_s == "course_making") {
+        window.location.href = "add_new_course.html";
+      } else {
+        if(herkunft_s == "startseite_prof") {
+          window.location.href = "Startseite_Prof.html";
+        } else {
+          if( herkunft_s == "prog_einzeln") {
+            window.location.href = "session_prog_einzeln.html";
+          } else {
+            if (herkunft_s == "gmci_einzeln") {
+              window.location.href = "session_gmci_einzeln.html";
+            } else {
+              window.location.href = "session_list.html";
+            }
+          }
+        }
+      }
+
+    }
+
+    const herkunft_tief = localStorage.getItem("herkunft_tief");
+
+    function save(){
+      alert("Course and Session have been succsessfully created and added");
+
+      const course_type = localStorage.getItem("course_id");
+
+      if (course_type == "gmci") {
+        sessionStorage.setItem("session_made_gmci", "si");
+      } else {
+        if ( course_type == "prog") {
+          sessionStorage.setItem("session_made_prog", "si");
+        }
+      }
+
+      /*sessionStorage.setItem("session_made", "si");*/
+
+      if(herkunft_tief == "course_list") {
+        window.location.href = "course_list.html";
+      } else {
+        if(herkunft_tief == "startseite_prof") {
+          window.location.href = "Startseite_Prof.html";
+        } else {
+          /*if(herkunft == "session_list") {
+           window.location.href = "session_list.html";
+          } else {*/
+            if(herkunft_tief == "prog_einzeln") {
+              window.location.href = "session_prog_einzeln.html";
+            } else {
+              if( herkunft_tief == "gmci_einzeln") {
+                window.location.href = "session_gmci_einzeln.html";
+              } else {
+                if (herkunft_tief == "session_list") {
+                  window.location.href = "session_list.html";
+                }
+              }
+            }
+          }
+        /*}*/
+      }
+     /* window.location.href ='Startseite_Prof.html';*/
+    }
+
+    function show_message2() {
+      alert("In the correct version, usage tips would be displayed here"); 
+    }
+
+    document.getElementById('openOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'flex';
+    document.getElementById('closeOverlayBtn').focus();
+});
+
+document.getElementById('closeOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+});
+
+
+document.getElementById('overlay').addEventListener('click', function(event) {
+    if (event.target === this) { 
+        document.getElementById('overlay').style.display = 'none';
+    }
+});
+  </script>
+
+</body>
+</html>

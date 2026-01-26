@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Creating a new Course</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f9fc;
+    }
+
+    main{
+      display: flex;
+      align: center;
+    }
+
+    .layout{
+      display: flex;
+      padding-bottom: 50px;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background-color: #2c3e50;
+      height: 70px;
+      color: white;
+      fontsize: 20px;
+      
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header select{
+      background-color: #2d4a7c;
+      color: white;
+      border:none;
+      padding: 8px 15px;
+      border-radius: 7px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    nav a{
+      margin-left: 30px;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    nav a:hover{
+      color: #D3D3D3;
+    }
+
+    nav a.aktuell{
+      text-decoration: underline;
+      color: white ;
+      text-decoration-color: #0da271;
+    }
+
+    .aktuell:hover{
+      color: #10b981;
+    }
+
+    .hamburger {
+      font-size: 40px;
+      cursor: pointer;
+      margin-right: 30px;
+      text-align: center;
+    }
+
+    .hamburger:hover {
+      color: #D3D3D3;
+    }
+
+    
+
+    .new_session_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      gap:10px;
+      display: inline-block;
+      align: center;
+      margin-top: 25px;
+      margin-left: 20px;
+    }
+
+    .zurück_btn{
+      display: inline-block;
+      background-color: #64748b;
+      color:white;
+      border-radius: 15px;
+      cursor: pointer;
+      align: center;
+      border:none;
+      padding-left: 20px;
+      padding-right: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      gap:10px;
+      margin-top: 25px;
+      margin-right: 20px;
+    }
+
+    .new_session_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .zurück_btn:hover{
+      transform: scale(1.03);
+      background-color: #2c3e50;
+    }
+
+    .container{
+      flex: 1;
+      display: inline-block;
+      justify-content: center;
+      /*padding-top:30px;*/
+      text-align: center;
+    }
+
+  
+
+    .mitte{
+      /*lex: 1;
+      display: inline-block;*/
+      padding: 35px;
+      justify-content: center;
+      padding-top:30px;
+      text-align: center;
+    }
+
+     .time_box{
+      background-color: #f8fafc;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .header_links{
+      display: flex;
+      justify-content: flex-start;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .frage_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      /*padding-top: 7px;
+      padding-bottom: 7px;*/
+      border-radius: 50px;
+       border: 1px solid #0da271;
+      font-size: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-left: 15px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+
+    .frage_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+
+
+    .session_list_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      border: 1px solid #e1e8f0;
+    }
+
+    .mitte h3{
+      color: #2c3e50;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      /*border-bottom: 2px solid #e1e8f0;*/
+      padding-bottom: 10px;
+      /*margin-left: 30px;*/
+    }
+
+    .session_item{
+      /*display: flex;
+      justify-content: space-between;*/
+      align-items: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-radius: 10px;
+      background-color: white;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+      gap: 70px;
+      /*text-align: left;*/
+    }
+
+    .category{
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a365d;
+    }
+
+    .session_item p{
+      color: #64748b;
+      font-size: 17px;
+    }
+
+    .session_item_box h3{
+      color: #2c3e50;
+      font-size: 1.8rem;
+      margin-bottom: 15px;
+      border-bottom: 2px solid #e1e8f0;
+      padding-bottom: 10px;
+    }
+
+    .session_item_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 30px;
+      padding-right: 30px;
+      padding-bottom:30px;
+      border: 1px solid #e1e8f0;
+      /*align-items: center;*/
+    }
+
+    .courses{
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+      margin-top: 20px;
+      margin-left:25px;
+      margin-right: 25px;
+    }
+
+    .next_date{
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 16px;
+      font-weight: 600;
+      white-space: nowrap;
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    .session_item_outer{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .delete_btn{
+      background-color: #A91101;
+      color:white;
+      border:none;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      border-radius: 50px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-right: 15px;
+    }
+
+    .delete_btn:hover{
+      transform: scale(1.03);
+      background-color: #880808;
+    }
+
+    .add_session_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      border-radius: 50px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-right: 15px;
+    }
+
+    .add_session_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .buttons_outer{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      margin-left: 10px;
+    }
+
+    .buttons_inner{
+      display: flex;
+      justify-content: space-between;
+      margin-top: 15px;
+      margin-left: 10px;
+    }
+
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip-text {
+      position: absolute;
+      top: calc(100% + 8px); 
+      left: 50%;
+      transform: translateX(-50%) translateY(-5px);
+      margin-top: -2px;
+      background-color: #D3D3D3;
+      color: #2c3e50;
+      border:1px solid #a6a6a6;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 1000;
+
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tooltip:hover .tooltip-text {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .session_titel{
+      font-weight: 600;
+      color: #1a365d;
+    }
+
+    .session_date{
+      color: #64748b;
+      margin-top: 3px;
+    }
+
+    .session_status_u{
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    .session_status_c{
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      white-space: nowrap;
+      background-color: #d1fae5;
+      color: #065f46;
+    }
+
+    .mitte_header{
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #e1e8f0;
+      margin-left: 35px;
+      margin-right: 35px;
+      align-items: center;
+    }
+
+    .außen {
+      display: flex;
+      flex-direction: column;
+    
+      padding: 12px 15px;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+      /*gap: 70px;*/
+    }
+
+    .edit_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      border-radius: 15px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-right: 15px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .edit_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .außen:hover{
+      background-color: #f0f7ff;
+      transform: scale(1.02);
+    }
+
+    .summary_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-top: 7px;
+      padding-bottom: 7px;
+      border-radius: 15px;
+      font-size: 17px;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-right: 15px;
+      padding-left: 10px;
+      padding-right: 10px;
+    }
+
+    .summary_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .new_session_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      gap:10px;
+      display: inline-block;
+      align: center;
+      margin-top: 25px;
+      margin-left: 20px;
+    }
+
+        .new_session_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .overlay-container {
+      display: none; 
+      position: fixed; 
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); 
+      z-index: 1000; 
+      justify-content: center; 
+      align-items: center;
+}
+
+    .overlay_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-bottom: 25px;
+      padding-right: 25px;
+      border: 1px solid #e1e8f0;
+  }
+
+  .overlay_content a{
+      color: #2c3e50 ;
+      text-decoration: none;
+      padding: 10px;
+      font-size: 30px;
+      text-align: center;
+      font-weight: 600;
+      margin-right: 10px;
+  }
+
+  .overlay_content a:hover{
+    transform: scale(1.02);
+    background-color: #e0f2fe;
+    border-radius: 15px;
+  }
+
+  .profil{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .settings{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .angaben2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .overlay_content{
+    display: flex;
+    align-content: flex-start;
+    position: relative;
+    padding-right:25px;
+    
+  }
+
+  .close_btn{
+    background-color: transparent;
+    color:#A91101;
+    border:none;
+    font-size: 30px;
+    cursor: pointer;
+
+    position: absolute; /* Positioniert relativ zum nächsten positionierten Vorfahren (.overlay) */
+    top: 10px; 
+    right: 1px;        
+  }
+
+  .close_btn:hover{
+    transform: scale(1.02);
+    color:#880808;
+  }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="header">
+  <div class="header_links">
+    <select style="height: 27px;">
+      <option>EN</option>
+      <option>DE</option>
+    </select>
+
+    <button class="frage_btn tooltip" onclick="show_message2()">?
+      <span class="tooltip-text">Any Questions? click here</span>
+    </button>
+  </div>
+
+    <nav>
+      <a href="Startseite_Prof.html" class="tooltip">Start
+        <span class="tooltip-text">Click here to return to the Startscreen</span></a>
+        
+      <a href="course_list.html" class="tooltip">Courses
+        <span class="tooltip-text">Click here to view your Courses</span>
+      </a>
+
+      <a href="session_list.html" class="aktuell tooltip">Sessions
+        <span class="tooltip-text">You are currently here</span></a>
+    </nav>
+    <div id="openOverlayBtn" class="hamburger">☰</div>
+    <div id="overlay" class="overlay-container">
+      <div class="overlay_box">
+        <div class="overlay_content">
+          <div class="angaben2">
+          <a href="#" class="profil">Profil</a>
+          <a href="#" class="settings">Settings</a>
+          <a href="Prof_log_in.html" class="logout">Log out</a>
+          </div>
+          <button class="close_btn" id="closeOverlayBtn">×</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+<main class="layout">
+  <div class="container">
+    <div class="mitte">
+      <div class="mitte_header">
+      <h3 align="left" style= "color:#2c3e50;">GMCI | Sessions</h3>
+
+      <div>
+      <button class="zurück_btn tooltip"  onclick="zurück()"><h2>←</h2>
+      <span class="tooltip-text" id="tooltip_z">Return to the Startscreen</span></a></button>
+    </div>
+    </div>
+
+
+    <div>
+    <div class="courses">
+
+      <div class="session_item_box">
+        <!--<h3 style="color: #2c3e50; text-align: left;">GMCI</h3>-->
+        <div class="session_item_outer" id="session_container">
+
+
+          <div class="außen">
+          <div class="session_item">
+          <div>
+          <div class="session_titel" style="text-align:left;">Session 03</div>
+          <div class="session_date">January 20, 2026 | TU: 8:00 AM - 9:30 AM</div>
+        </div>
+        <div class="session_status_u">Upcoming</div>
+        </div>
+
+        <div class="buttons_inner">
+          <div class="buttons_l">
+            <button class="edit_btn" onclick="edit_message()">Edit</button>
+            <button class="summary_btn" onclick="view_summary(3)">View Summary</button>
+        </div>
+        <button class="delete_btn" onclick="delete_message()">Delete</button>
+        </div>
+      </div>
+
+
+        <div class="außen">
+        <div class="session_item">
+          <div>
+          <div class="session_titel" style="text-align:left;">Session 02</div>
+          <div class="session_date">January 13, 2026 | TU: 8:00 AM - 9:30 AM</div>
+        </div>
+        <div class="session_status_c">Complete</div>
+        </div>
+
+        <div class="buttons_inner">
+          <div class="buttons_l">
+            <button class="edit_btn" onclick="edit_message()">Edit</button>
+            <button class="summary_btn" onclick="view_summary(2)">View Summary</button>
+        </div>
+        <button class="delete_btn" onclick="delete_message()">Delete</button>
+        </div>
+      </div>
+
+
+        <div class="außen">
+        <div class="session_item">
+          <div>
+          <div class="session_titel" style="text-align: left;">Session 01</div>
+          <div class="session_date">Dezember 16, 2025 | TU: 8:00 AM - 9:30 AM</div>
+        </div>
+        <div class="session_status_c">Complete</div>
+        </div>
+
+        <div class="buttons_inner">
+          <div class="buttons_l">
+            <button class="edit_btn" onclick="edit_message()">Edit</button>
+            <button class="summary_btn" onclick="view_summary(1)">View Summary</button>
+        </div>
+        <button class="delete_btn" onclick="delete_message()">Delete</button>
+        </div>
+      </div>
+      </div>  
+    </div>
+
+    </div>
+</div> 
+
+
+  <div class="buttons">
+      <button class="new_session_btn" onclick="new_session()" ><h2>Add a new Session</h2></button>
+  </div>
+
+  </main>
+
+  <script>
+    const tooltip_z = document.getElementById("tooltip_z");
+
+     window.onload = function() { 
+      const herkunft_einzeln = localStorage.getItem("herkunft_einzeln");
+      if(herkunft_einzeln === "startseite_prof") {
+        tooltip_z.innerText = "Return to the Startscreen";
+      } else {
+        if( herkunft_einzeln === "course_list") {
+          tooltip_z.innerText = "Return to the Course list";
+        }
+      }
+    };
+
+    function zurück() {
+      const herkunft_einzeln = localStorage.getItem("herkunft_einzeln");
+      if(herkunft_einzeln === "startseite_prof") {
+        window.location.href ="Startseite_Prof.html";
+      } else {
+        if( herkunft_einzeln === "course_list") {
+          window.location.href ="course_list.html";
+        }
+      }
+    }
+
+
+    function delete_message() {
+      if (!confirm("Do you really want to delete a Session?")) {
+        return;
+      } else {
+        document.querySelector('.courses').addEventListener('click', function (event) {
+
+          if (!event.target.closest('.delete_btn')) return;
+
+          event.target.closest('.außen').remove();
+        });
+      }
+    }
+
+    function view_summary(count) {
+      localStorage.setItem("session_count_gmci", count);
+      window.location.href="summary_session_gmci.html";
+    }
+
+    function show_message2() {
+      alert("In the correct version, usage tips would be displayed here"); 
+    }
+
+    function edit_message() {
+      alert("In the correct version the user would be able to change the settings of the session");
+    }
+    
+    function new_session() {
+      localStorage.setItem("herkunft_s", "gmci_einzeln");
+      localStorage.setItem("herkunft_tief", "gmci_einzeln");
+
+      localStorage.setItem("wochentag", "TU");
+      localStorage.setItem("semester", "winter");
+      localStorage.setItem("course_id", "gmci");
+      localStorage.setItem("start_time", "8:00");
+      localStorage.setItem("course_name", "GMCI");
+      localStorage.setItem("first_date", "14.10.2025");
+      localStorage.setItem("input_location", "Raum 023: Multimedia-Hörsaal");
+      window.location.href="add_new_session.html";
+    }
+
+     //neue session hinzufügen
+    const session_made_gmci = sessionStorage.getItem("session_made_gmci");
+
+    const sessionContainer = document.getElementById('session_container');
+
+    const day_old = 20;
+    function day_berechnen(day) {
+      return day + 7;
+    }
+
+    const session_count = 3;
+    function session_count_ink(count) {
+      return count + 1;
+    }
+
+
+
+    if(session_made_gmci === "si") {
+      let day_new = day_berechnen(day_old);
+      let new_session_count = session_count_ink(session_count);
+       const außenDiv = document.createElement('div');
+      außenDiv.classList.add('außen'); // CSS-Klasse hinzufügen
+      außenDiv.class ='außen';
+      außenDiv.innerHTML = `
+        <div class="session_item">
+          <div>
+          <div class="session_titel" style="text-align:left;">Session 0${new_session_count}</div>
+          <div class="session_date">January ${day_new}, 2026 | TU: 8:00 AM - 9:30 AM</div>
+        </div>
+        <div class="session_status_u">Upcoming</div>
+        </div>
+
+        <div class="buttons_inner">
+          <div class="buttons_l">
+            <button class="edit_btn" onclick="#">Edit</button>
+            <button class="summary_btn" onclick="window.location.href ='#'">View Summary</button>
+        </div>
+        <button class="delete_btn" onclick="delete_message()">Delete</button>
+        </div>
+      `;
+
+      sessionContainer.prepend(außenDiv);
+    }
+
+
+     document.getElementById('openOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'flex';
+    document.getElementById('closeOverlayBtn').focus();
+});
+
+document.getElementById('closeOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+});
+
+
+document.getElementById('overlay').addEventListener('click', function(event) {
+    if (event.target === this) { 
+        document.getElementById('overlay').style.display = 'none';
+    }
+});
+
+
+</script>
+
+</body>
+</html>

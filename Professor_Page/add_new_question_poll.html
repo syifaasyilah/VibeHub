@@ -1,0 +1,1057 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Creating a new Course</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f5f9fc;
+      align-flex: center;
+    }
+
+    main{
+      display: flex;
+      align-items: center; 
+      justify-content: center; 
+      }
+
+    .layout{
+      display: flex;
+      padding-bottom: 50px;
+      gap: 30px;
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    .header {
+      background-color: #2c3e50;
+      height: 70px;
+      color: white;
+      fontsize: 20px;
+      
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .header select{
+      background-color: #2d4a7c;
+      color: white;
+      border:none;
+      padding: 8px 15px;
+      border-radius: 7px;
+      font-weight: 500;
+      cursor: pointer;
+      margin-left: 20px;
+    }
+
+    nav a{
+      margin-left: 30px;
+      color: white;
+      text-decoration: none;
+      padding: 5px;
+      font-size: 30px;
+      text-align: center;
+    }
+
+    nav a:hover{
+      color: #D3D3D3;
+    }
+
+    nav a.aktuell{
+      text-decoration: underline;
+      color: white ;
+      text-decoration-color: #0da271;
+    }
+
+    .aktuell:hover{
+      color: #10b981;
+    }
+
+    .hamburger {
+      font-size: 40px;
+      cursor: pointer;
+      margin-right: 30px;
+      text-align: center;
+    }
+
+    .hamburger:hover {
+      color: #D3D3D3;
+    }
+
+    table {
+      border-collapse: separate;
+      border-spacing: 10px;
+      background-color: white;
+      align: center;
+      border: 1px solid #e1e8f0;
+      /*display: inline-block;*/
+      border-radius: 7px;
+      width: 100%;
+      padding-left: 30px;
+      padding-right: 30px;
+    }
+
+    table th {
+      text-align: center;
+      font-weight: 600;
+      color: #64748b;
+      padding: 8px 0;
+      font-size: 1.1rem;
+      width: 30px;
+    }
+
+    table td {
+      text-align: center;
+      padding: 15px 0;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background-color 0.2s;
+      font-size: 0.9rem;
+      
+    }
+
+    table th:hover{
+      background-color: #e0f2fe;
+      color: #0369a1;
+      font-weight: 600;
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 7px;
+      padding: 5px;
+    }
+
+    .inner_container{
+      display: flex;
+      align-items: center;
+      gap: 30px;
+      margin-top: 25px;
+    }
+
+    .question_poll_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      border: 1px solid #e1e8f0;
+      margin-left: 25px;
+      margin-right: 25px;
+      margin-top: 30px;
+    }
+
+    .question_poll_box h3{
+      color: #1a365d;
+      font-size: 45px;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e1e8f0;
+    }
+
+    .question_box{
+      background-color: #f5f9fc;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-bottom: 25px;
+      padding-top: 25px;
+      padding-right: 90px;
+      border: 1px solid #e1e8f0;
+
+    }
+
+    .question_box_header{
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      font-size:30px;
+      font-weight: 600;
+      /*border-bottom: 2px solid #e1e8f0;*/
+    }
+
+    .auswahl{
+      display:flex;
+      gap:30px;
+      font-size:30px;
+      font-weight: 600;
+      border-bottom: 2px solid #e1e8f0;
+    }
+
+    .question_item{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-radius: 10px;
+      background-color: white;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+    }
+
+    .question{
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      margin-right: 15px;
+    }
+
+    .question:focus{
+      border-color: #3b82f6;
+    }
+
+    .question:hover{
+      background-color: #f0f7ff;
+    }
+
+    .ankreuzen{
+      display: flex;
+      margin-left: 20px;
+      margin-right: 20px;
+      gap:65px;
+    }
+
+    .question_box_inner{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .add_question_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-left: 35px;
+      padding-right: 35px;
+      /*width: 30px;*/
+      border-radius: 25px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-left: 10px;
+    }
+
+    .add_question_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .question_box_outer{
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      justify-content: flex-start;
+    }
+
+    .angaben{
+      display: flex;
+      align-items: center;
+    }
+
+    .input{
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .input_item{
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 15px;
+      border-radius: 10px;
+      background-color: #f8fafc;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+      gap: 20px;
+    }
+
+    label {
+      font-size: 20px;
+      font-weight: 600;
+      color: #1a365d;
+    }
+
+    .input_name{
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input_name:focus{
+      border-color: #3b82f6;
+    }
+
+    .input_name:hover{
+      background-color: #f0f7ff;
+    }
+
+    .input_processing_time{
+      flex: 1;
+      padding: 16px 20px;
+      border: 2px solid #e1e8f0;
+      border-radius: 12px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .input_processing_time:hover{
+      background-color: #f0f7ff;
+    }
+
+    .zurück_btn{
+      display: inline-block;
+      background-color: #64748b;
+      color:white;
+      border-radius: 15px;
+      cursor: pointer;
+      align: center;
+      border:none;
+      padding-left: 20px;
+      padding-right: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+      gap:10px;
+      margin-top: 25px;
+      margin-right: 20px;
+    }
+
+    .zurück_btn:hover{
+      transform: scale(1.03);
+      background-color: #2c3e50;
+    }
+
+    .save_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      padding-left: 40px;
+      padding-right: 40px;
+      border-radius: 20px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(16, 185,129, 0.3);
+      gap:10px;
+      display: inline-block;
+      align: center;
+      margin-top: 25px;
+      margin-left: 20px;
+    }
+
+    .save_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .save_btn:disabled {
+      background-color: #D3D3D3;
+      cursor: not-allowed;
+    }
+
+    .mitte{
+      flex: 1;
+      display: inline-block;
+      justify-content: center;
+      padding-top:20px;
+      text-align: center;
+    }
+
+   .remove_question_btn{
+  /* Button-Stil */
+    color: white;
+    cursor: pointer;
+    border:none;
+    background-color: transparent;
+    font-size: 25px;
+    padding:7px 15px;
+
+    background-color:#A91101;
+    border-radius: 15px;
+    font-weight: 600;
+  /* Verstecken initial */
+    opacity: 0; /* Macht ihn unsichtbar */
+    visibility: hidden; /* Verhindert Klicks, wenn unsichtbar */
+    transition: opacity 0.3s ease, visibility 0.3s ease; /* Sanfter Übergang */
+  /* Optional: Positionieren Sie ihn absolut innerhalb des Containers */
+    position: absolute;
+    /*top: 50%;*/
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .remove_question_btn:hover{
+    background-color: #880808;
+  }
+
+  .question_item:hover .remove_question_btn {
+    opacity: 1; 
+    visibility: visible; 
+  }
+
+  .header_links{
+      display: flex;
+      justify-content: flex-start;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .frage_btn{
+      background-color: #10b981;
+      color:white;
+      border:none;
+      /*padding-top: 7px;
+      padding-bottom: 7px;*/
+      border-radius: 50px;
+       border: 1px solid #0da271;
+      font-size: 25px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap:10px;
+      margin-left: 15px;
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+
+    .frage_btn:hover{
+      transform: scale(1.03);
+      background-color: #0da271;
+    }
+
+    .template_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-right: 25px;
+      padding-bottom: 25px;
+      border: 1px solid #e1e8f0;
+      margin-left: 25px;
+      margin-right: 25px;
+      margin-top: 20px;
+    }
+
+    .template_box h4{
+      color: #1a365d;
+      margin-bottom: 20px;
+      padding-bottom: 10px;
+      border-bottom: 2px solid #e1e8f0;
+      font-size:25px;
+    }
+
+    .templates{
+      display: flex;
+      gap: 12px;
+      justify-content: space-around;
+    }
+
+    .template_btn{
+      align-items: center;
+      border-radius: 10px;
+      background-color: #f5f9fc;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+      font-size: 25px;
+      cursor: pointer;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      color: #2c3e50;
+      /*margin-left: 28px;*/
+    }
+
+    .template_btn:hover{
+      transform: scale(1.03);
+      background-color: #f0f7ff;
+    }
+
+    .sc_template_btn{
+      align-items: center;
+      border-radius: 10px;
+      background-color: white;
+      transition: background-color 0.2s;
+      border: 1px solid #e1e8f0;
+      font-size: 25px;
+      cursor: pointer;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      color: #2c3e50;
+      /*margin-left: 28px;*/
+    }
+
+    .sc_template_btn:hover{
+      transform: scale(1.03);
+      background-color: #f0f7ff;
+    }
+
+    .template_hover{
+      visibility: hidden;
+      width: 100%;
+      background-color: white;
+      color: #2c3e50;
+      border: 1px solid #e1e8f0;
+      text-align: center;
+      border-radius: 15px;
+      padding: 5px 7px;
+      position: absolute;
+      z-index: 1;
+      top: 115%; 
+      left: 15%;
+      /*margin-left: -60px;*/ /* Zentrieren */
+      opacity: 0;
+      transition: opacity 0.3s;
+      font-size: 15px;
+    }
+
+    .sc_template_btn:hover .template_hover {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    .aktuell_temp{
+      background-color: #dbeafe;
+      color: #1e40af;
+      font-weight: 600;
+      font-weight: bold;
+      transform: scale(1.02);
+    }
+
+    #sc.aktiv{
+      background-color: #dbeafe;
+      color: #1e40af;
+      font-weight: 600;
+      font-weight: bold;
+      transform: scale(1.02);
+    }
+
+    #mc.aktiv{
+      background-color: #dbeafe;
+      color: #1e40af;
+      font-weight: 600;
+      font-weight: bold;
+      transform: scale(1.02);
+    }
+
+    #ft.aktiv{
+      background-color: #dbeafe;
+      color: #1e40af;
+      font-weight: 600;
+      font-weight: bold;
+      transform: scale(1.02);
+    }
+
+    .outer_container{
+      display: flex;
+      flex-direction: column;
+      gap: 25px;
+    }
+
+    .tooltip {
+      position: relative;
+    }
+
+    .tooltip-text {
+      position: absolute;
+      top: calc(100% + 8px); 
+      left: 50%;
+      transform: translateX(-50%) translateY(-5px);
+      margin-top: -2px;
+      background-color: #D3D3D3;
+      color: #2c3e50;
+      border:1px solid #a6a6a6;
+      padding: 6px 10px;
+      border-radius: 6px;
+      font-size: 15px;
+      font-weight: 600;
+      white-space: nowrap;
+
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+      z-index: 1000;
+
+      transition: opacity 0.25s ease, transform 0.25s ease;
+    }
+
+    .tooltip:hover .tooltip-text {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
+    .tooltip-text strong {
+      font-size: 14px;
+    }
+
+    .mitte_header{
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 2px solid #e1e8f0;
+      margin-left: 35px;
+      margin-right: 35px;
+      align-items: center;
+    }
+
+    .mitte h3{
+      color: #2c3e50;
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      /*border-bottom: 2px solid #e1e8f0;*/
+      padding-bottom: 10px;
+      /*margin-left: 30px;*/
+    }
+
+    .overlay-container {
+      display: none; 
+      position: fixed; 
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.7); 
+      z-index: 1000; 
+      justify-content: center; 
+      align-items: center;
+}
+
+    .overlay_box{
+      background-color: white;
+      border-radius: 20px;
+      padding-left: 25px;
+      padding-bottom: 25px;
+      padding-right: 25px;
+      border: 1px solid #e1e8f0;
+  }
+
+  .overlay_content a{
+      color: #2c3e50 ;
+      text-decoration: none;
+      padding: 10px;
+      font-size: 30px;
+      text-align: center;
+      font-weight: 600;
+      margin-right: 10px;
+  }
+
+  .overlay_content a:hover{
+    transform: scale(1.02);
+    background-color: #e0f2fe;
+    border-radius: 15px;
+  }
+
+  .profil{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .settings{
+    border-bottom: 2px solid #e1e8f0;
+  }
+
+  .angaben2{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin-top: 10px;
+  }
+
+  .overlay_content{
+    display: flex;
+    align-content: flex-start;
+    position: relative;
+    padding-right:25px;
+    
+  }
+
+  .close_btn{
+    background-color: transparent;
+    color:#A91101;
+    border:none;
+    font-size: 30px;
+    cursor: pointer;
+
+    position: absolute; /* Positioniert relativ zum nächsten positionierten Vorfahren (.overlay) */
+    top: 10px; 
+    right: 1px;        
+  }
+
+  .close_btn:hover{
+    transform: scale(1.02);
+    color:#880808;
+  }
+
+
+
+  </style>
+</head>
+<body>
+  <div class="header">
+    <div class="header_links">
+    <select style="height: 27px;">
+      <option>EN</option>
+      <option>DE</option>
+    </select>
+
+    <button class="frage_btn tooltip" onclick="show_message2()">?
+      <span class="tooltip-text">Any Questions? click here</span>
+    </button>
+  </div>
+
+    <nav>
+      <a href="Startseite_Prof.html" class="tooltip">Start
+        <span class="tooltip-text">Click here to return to the Startscreen</span></a>
+
+      <a onclick="course_overview()" class="aktuell tooltip">Courses
+        <span class="tooltip-text">Click here to view your Courses</span>
+      </a>
+
+      <a onclick="session_overview()" class="tooltip">Sessions
+        <span class="tooltip-text">Click here to view your Sessions</span></a>
+    </nav>
+    <div id="openOverlayBtn" class="hamburger">☰</div>
+    <div id="overlay" class="overlay-container">
+      <div class="overlay_box">
+        <div class="overlay_content">
+          <div class="angaben2">
+          <a href="#" class="profil">Profil</a>
+          <a href="#" class="settings">Settings</a>
+          <a href="Prof_log_in.html" class="logout">Log out</a>
+          </div>
+          <button class="close_btn" id="closeOverlayBtn">×</button>
+      </div>
+    </div>
+    </div>
+  </div>
+
+<main class="layout">
+  <div class="container">
+    <div class="mitte">
+
+      <div class="mitte_header">
+      <h3 align="left" style= "color:#2c3e50;">Create a new Quiz</h3>
+
+      <div>
+      <button class="zurück_btn tooltip" onclick="window.location.href='add_new_session.html'"><h2>←</h2>
+        <span class="tooltip-text" id="tooltip-text-z">Return to the Session creation</span></button>
+    </div>
+    </div>
+
+    <div class="oben">
+  <div class="template_box">
+    <h4 align="center" style= "color:#2c3e50;">Templates</h4>
+    <div class="templates">
+
+      <button class="sc_template_btn aktuell_temp tooltip" id="sc" onclick="toggleSC(this)" style="padding: 12px 24px;"><label>Single Choice</label>
+       <span class="tooltip-text">The selected Template</span>
+
+      </button>
+
+      <button class="template_btn" id="mc" onclick="toggleMC(this)" style="padding: 12px 24px;"><label>Multiple Choice</label></button>
+
+      <button class="template_btn" id="ft" onclick="toggleFT(this)" style="padding: 12px 24px;"><label>Free Text</label></button>
+    </div>
+  </div>
+</div>
+
+    <div class="question_poll_box">
+   
+<div class="outer_container">
+
+<div class="inner_container">
+<div class="links">
+    <div class="question_box">
+      <div class="question_box_header">
+      <div align="center" style=" color:#2c3e50; border-bottom: 2px solid #e1e8f0;">Questions</div>
+
+      <div class="auswahl">
+        <div style=" color:#2c3e50;">true</div>
+      <div style=" color:#2c3e50;">false</div>
+      </div>
+    </div>
+
+
+    <div class="question_box_outer">
+    <div id="question_container" class="question_box_inner">
+
+      <div id="question_item1"class="question_item">
+        <input type="text" class="question" placeholder="Enter a Question" >
+
+        <div class="ankreuzen">
+          <input type="checkbox" class="true"/>
+          <input type="checkbox" class="false"/>
+        </div>
+
+       <div class="löschen"> 
+      <button id="remove_question_btn" class="remove_question_btn" >-</button>
+    </div>
+      
+      </div>
+
+       <div id="question_item2" class="question_item">
+        <input type="text" class="question" placeholder="Enter a Question" >
+
+        <div class="ankreuzen">
+          <input type="checkbox" class="true"/>
+          <input type="checkbox" class="false"/>
+        </div>
+
+        <div class="löschen">
+      <button id="remove_question_btn" class="remove_question_btn">-</button>
+    </div>
+      </div>
+
+    </div>
+    <div>
+    <div id="add_question_btn" style="display: flex; justify-content: flex-start;">
+      <button class="add_question_btn"><h2>+</h2></button>
+    </div>
+  </div>
+
+  </div>
+  </div>
+</div>
+
+   
+  <div class="rechts">
+    <div class="angaben">
+      <div class="input">
+
+        <div class="input_item">
+        <label for="input_name">Name:</label>
+        <input type="text" class="input_name" id="poll_name" placeholder="Enter Name of the Question-Poll" style="width:250px; height: 30px;" required/><br>
+      </div>
+    
+      <div class="input_item tooltip">
+        <label for="input_processing_time" style=" height: 30px;">Processing time:</label>
+        <input type="time"  id="poll_time" class="input_processing_time" placeholder="10:00" required/> 
+        <span class="tooltip-text">The time the students are given to complete the question poll</span>
+      </div>
+  </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
+    <div class="buttons">
+
+      <button class="save_btn tooltip" id="save_btn" onclick="speichern()" disabled><h2>Save</h2>
+        <span class="tooltip-text" id="tooltip_text">You must enter the <strong>name</strong> and the <strong>processing time</strong> to continue</span></button>
+
+    </div>
+  </div>
+</div>
+    
+  </main>
+
+  <script>
+    function session_overview() {
+      localStorage.setItem("herkunft_session", "question_poll");
+      window.location.href="session_list.html";
+    }
+
+    function course_overview() {
+      localStorage.setItem("herkunft_course", "question_poll");
+      window.location.href = "course_list.html";
+    }
+
+    const save_btn = document.getElementById("save_btn");
+    const quiz_name2 = document.getElementById("poll_name");
+    const quiz_time2 = document.getElementById("poll_time");
+
+    function enable_save_btn() {
+      save_btn.disabled = quiz_name2.value.trim() === "" || quiz_time2.value === "";
+    }
+
+    quiz_name2.addEventListener("input", enable_save_btn);
+    quiz_time2.addEventListener("input", enable_save_btn);
+
+    //tooltip anpassung
+    const tooltip_text = document.getElementById("tooltip_text");
+
+    function tooltip_anpassung() {
+      if(quiz_name2.value.trim() === "" && quiz_time2.value != "") {
+        tooltip_text.innerHTML = "You must enter a <strong>name</strong> to continue";
+      } else {
+        if(quiz_name2.value.trim() != "" && quiz_time2.value === "") {
+          tooltip_text.innerHTML = "You must enter the <strong>processing time</strong> to continue";
+        } else {
+          tooltip_text.remove();
+        }
+      }
+    }
+
+    quiz_name2.addEventListener("input", tooltip_anpassung);
+    quiz_time2.addEventListener("input", tooltip_anpassung);
+
+    //speichern der eingegebenen werte
+    function speichern() {
+      const quiz_name = document.getElementById("poll_name").value;
+      localStorage.setItem("quiz_name", quiz_name);
+
+      const quiz_time = document.getElementById("poll_time").value;
+      localStorage.setItem("quiz_time", quiz_time);
+
+      sessionStorage.setItem("quiz_made", "si");
+    
+      alert("Question-Poll has been succsessfully created and added\n\nIn the correct version, the name of the created question-poll would appear in the corresponding list. The professor could then access and modify it as needed (not implemented in this prototype)."); 
+      window.location.href='add_new_session.html';
+    }
+
+    function show_message2() {
+      alert("In the correct version, usage tips would be displayed here"); 
+    }
+
+    const neueFrageButton = document.getElementById('add_question_btn');
+    const fragenContainer = document.getElementById('question_container');
+    let question_counter = 2; 
+
+
+// Funktion, die beim Klick ausgeführt wird
+    function neueFrageHinzufuegen() {
+      question_counter++;
+
+    // Neues div-Element für die Frage erstellen
+    const neueFrageDiv = document.createElement('div');
+    neueFrageDiv.classList.add('question_item'); // CSS-Klasse hinzufügen
+    neueFrageDiv.class ='question_item';
+    neueFrageDiv.id = `question_item${question_counter}`;
+
+    /*// Label-Element erstellen
+    const label = document.createElement('label');
+    label.textContent = `Frage ${frageCounter}:`;
+    label.htmlFor = `frage${frageCounter}`; // for-Attribut setzen*/
+
+    // Input-Element erstellen
+    const input = document.createElement('input');
+    input.type = 'text';
+    input.class= 'question'
+    input.placeholder = `Enter a Question`;
+    input.classList.add('question');
+
+    const kreuze = document.createElement('div');
+    kreuze.classList.add('ankreuzen');
+
+    const input_k1 = document.createElement('input');
+    input_k1.type = 'checkbox';
+    input_k1.class = 'links';
+
+    const input_k2 = document.createElement('input');
+    input_k2.type = 'checkbox';
+    input_k2.class = 'rechts';
+
+    kreuze.appendChild(input_k1);
+    kreuze.appendChild(input_k2);
+
+    const remove = document.createElement('div');
+    remove.class ='löschen';
+    remove.classList.add('löschen'); 
+
+    const remove_button = document.createElement('button');
+    remove_button.class ='remove_question_btn';
+    remove_button.textContent = '-';
+    remove_button.classList.add('remove_question_btn'); 
+
+    remove.appendChild(remove_button);
+
+    // Label und Input zum neuen Div hinzufügen
+    neueFrageDiv.appendChild(input);
+    neueFrageDiv.appendChild(kreuze);
+    neueFrageDiv.appendChild(remove);
+
+    // Neues Div zum Container hinzufügen
+    fragenContainer.appendChild(neueFrageDiv);
+}
+
+// Event Listener zum Button hinzufügen
+neueFrageButton.addEventListener('click', neueFrageHinzufuegen);
+
+
+document.querySelector('.question_box_inner').addEventListener('click', function (event) {
+
+    if (!event.target.closest('.remove_question_btn')) return;
+
+    event.target.closest('.question_item').remove();
+  });
+
+
+
+  function toggleSC(buttonElement) {
+  // Prüfen, ob der Button aktuell deaktiviert ist
+      if (buttonElement.classList.contains('aktiv')) {
+        buttonElement.classList.remove('aktiv');
+      } else {
+        buttonElement.classList.add('aktiv');
+        if(document.getElementById('mc').classList.contains('aktiv'))
+          document.getElementById('mc').classList.remove('aktiv');
+        if(document.getElementById('ft').classList.contains('aktiv'))
+          document.getElementById('ft').classList.remove('aktiv');
+    }
+  }
+
+  function toggleMC(buttonElement) {
+  // Prüfen, ob der Button aktuell deaktiviert ist
+      if (buttonElement.classList.contains('aktiv')) {
+        buttonElement.classList.remove('aktiv');
+      } else {
+        buttonElement.classList.add('aktiv');
+        if(document.getElementById('sc').classList.contains('aktiv'))
+          document.getElementById('sc').classList.remove('aktiv');
+        if(document.getElementById('ft').classList.contains('aktiv'))
+          document.getElementById('ft').classList.remove('aktiv');
+        alert("In the correct version, the professor can choose between different templates.\n\nIn the prototype version, only the single-choice template is available."); 
+    }
+  }
+
+  function toggleFT(buttonElement) {
+  // Prüfen, ob der Button aktuell deaktiviert ist
+      if (buttonElement.classList.contains('aktiv')) {
+        buttonElement.classList.remove('aktiv');
+      } else {
+        buttonElement.classList.add('aktiv');
+        if(document.getElementById('mc').classList.contains('aktiv'))
+          document.getElementById('mc').classList.remove('aktiv');
+        if(document.getElementById('sc').classList.contains('aktiv'))
+          document.getElementById('sc').classList.remove('aktiv');
+        alert("In the correct version, the professor can choose between different templates.\n\nIn the prototype version, only the single-choice template is available."); 
+    }
+  }
+
+  document.getElementById('openOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'flex';
+    document.getElementById('closeOverlayBtn').focus();
+});
+
+document.getElementById('closeOverlayBtn').addEventListener('click', function() {
+    document.getElementById('overlay').style.display = 'none';
+});
+
+
+document.getElementById('overlay').addEventListener('click', function(event) {
+    if (event.target === this) { 
+        document.getElementById('overlay').style.display = 'none';
+    }
+});
+
+
+    
+</script>
+
+</body>
+</html>
